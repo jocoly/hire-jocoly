@@ -9,18 +9,63 @@
 
 /* display background color black on navbar scroll */
 .navbarScroll.navbarLight {
-    background-color: lightsteelblue;
+    background-color: rgb(166, 144, 246);
 }
 
-/* hero background image */
-.bgimage {
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.banner {
     height:100vh;
-    background: url('./assets/heroImage.jpg');
-    background-size:cover;
-    position:relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+/* background gradient */
+.gradient {
+    --size: 100vh;
+    --speed: 30s;
+    --easing: cubic-bezier(0.8,0.2,0.2,0.8);
+
+    width: var(--size);
+    height: var(--size);
+    filter: blur(calc(var(--size) / 5));
+    background:
+            radial-gradient(
+                    circle at 50% 0,
+                    rgb(158, 152, 253),
+                    rgb(255 0 0 / 0%) 70.71%
+            ),
+            radial-gradient(
+                    circle at 6.7% 75%,
+                    rgb(248, 125, 234),
+                    rgb(0 0 255 / 0%) 70.71%
+            ),
+            radial-gradient(
+                    circle at 93.3% 75%,
+                    rgb(0, 236, 255),
+                    rgb(0 0 2552 / 0%) 70.71%
+            )
+            black;
+    animation: rotate var(--speed) var(--easing) alternate infinite;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    position: absolute;
 }
 
-/* text css above hero image*/
+@media (min-width: 1080px) {
+    .gradient {
+        --size: 1080px;
+    }
+}
+
 .hero_title {
     font-size: 4.5rem;
 }
@@ -33,7 +78,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
+    color: black;
 }
 
 /* about section image css */
@@ -75,6 +120,10 @@
 
 /* footer styling */
 #footer {
-    background-color: #808080;
+    background-color: rgba(166, 144, 246);
     text-align: center;
+}
+
+* {
+    transition: all 0.5s ease-out;
 }
