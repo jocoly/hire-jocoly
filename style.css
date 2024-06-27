@@ -7,7 +7,7 @@
     padding-bottom: 4rem;
 }
 
-/* display background color black on navbar scroll */
+/* display background color on navbar scroll */
 .navbarScroll.navbarLight {
     background-color: rgb(166, 144, 246);
 }
@@ -22,22 +22,22 @@
 }
 
 .banner {
+    margin: auto;
     height:100vh;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    width:100vw;
+    position: relative;
+    overflow: hidden;
   }
 
-/* background gradient */
 .gradient {
-    --size: 100vh;
-    --speed: 30s;
+    --height: 90vh;
+    --width: 90vw;
+    --speed: 50s;
     --easing: cubic-bezier(0.8,0.2,0.2,0.8);
 
-    width: var(--size);
-    height: var(--size);
-    filter: blur(calc(var(--size) / 5));
+    width: var(--height);
+    height: var(--width);
+    filter: blur(calc(var(--height) / 5));
     background:
             radial-gradient(
                     circle at 50% 0,
@@ -53,16 +53,18 @@
                     circle at 93.3% 75%,
                     rgb(0, 236, 255),
                     rgb(0 0 2552 / 0%) 70.71%
-            )
-            black;
+            );
+
+    background-size: var(--width);
     animation: rotate var(--speed) var(--easing) alternate infinite;
     border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
     position: absolute;
 }
 
-@media (min-width: 1080px) {
+@media (min-width: 90vw) {
     .gradient {
-        --size: 1080px;
+        --height: 100vh;
+        --width: 100vw;
     }
 }
 
