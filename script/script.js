@@ -10,6 +10,7 @@ window.onscroll = function() {
         header.classList.remove('navbarLight');
     }
 }
+
 // collapse navbar after click on small devices
 const navLinks = document.querySelectorAll('.nav-item')
 const menuToggle = document.getElementById('navbarSupportedContent')
@@ -17,3 +18,14 @@ const menuToggle = document.getElementById('navbarSupportedContent')
 navLinks.forEach((l) => {
     l.addEventListener('click', () => { new bootstrap.Collapse(menuToggle).toggle() })
 })
+
+const buttonRight = document.getElementById('slideRight');
+const buttonLeft = document.getElementById('slideLeft');
+
+buttonRight.onclick = function () {
+    document.getElementById('gallery').scrollLeft += 532;
+}
+
+buttonLeft.onclick = function () {
+    document.getElementById('gallery').scrollLeft -= 532;
+}
