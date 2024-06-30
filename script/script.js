@@ -75,8 +75,9 @@ async function generateImage(prompt) {
 
         let generatedImageContainer = document.getElementById('generatedImageContainer');
         let generatedImage = document.getElementById('generatedImage');
-        generatedImageUrl = generatedImageUrl.replace(/^\.\/output/, '/server/output');
-        generatedImage.src = "https://e72a-74-134-135-85.ngrok-free.app" + generatedImageUrl;
+        generatedImageUrl = generatedImageUrl.slice(1);
+        console.log("Sliced img url: " + generatedImageUrl)
+        generatedImage.src = "https://e72a-74-134-135-85.ngrok-free.app/server" + generatedImageUrl;
         console.log(generatedImage.src);
         generatedImage.onload = function () {
             adjustBannerHeight();

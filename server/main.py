@@ -10,7 +10,7 @@ import requests
 from PIL import Image
 from diffusers.utils import export_to_video
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import torch
 import os
@@ -20,7 +20,7 @@ import ssl
 import socket
 
 load_dotenv('./.env')
-app = Flask(__name__, static_folder='server/output')
+app = Flask(__name__, static_folder='./output')
 CORS(app)
 print("--> Starting the backend server. This may take some time.")
 
@@ -88,7 +88,17 @@ def health_check():
 
 @app.route('/server/output/<path:filename>')
 def serve_image(filename):
-    return send_from_directory(app.static_folder, filename)
+    try:
+        file_path = os.path.join(app.static_folder, filename)
+        print(f"Trying to serve file from path: {file_path}")  # Debugging log
+        if os.path.exists(file_path):
+            return send_from_directory(app.static_folder, filename)
+        else:
+            print("File not found")
+            return jsonify(error="File not found"), 404
+    except Exception as e:
+        print(f"Error serving file: {e}")
+        return jsonify(error=str(e)), 500
 
 def save_image(image, output_dir):
     file_name = str(uuid.uuid4()) + '.png'
