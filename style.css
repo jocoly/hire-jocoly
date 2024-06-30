@@ -1,7 +1,7 @@
 /* spacing on all sections */
 #about, #services, #portfolio, #contact {
-    margin-top: 4rem;
-    padding-top: 4rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
 }
 #contact {
     padding-bottom: 4rem;
@@ -32,10 +32,10 @@
 
 .banner {
     height:100vh;
-    width:98vw;
+    width:100vw;
     position: relative;
-    overflow-y: hidden;
-    overflow-x: hidden;
+    overflow: hidden;
+    min-height: 1230px;
   }
 
 .title {
@@ -55,7 +55,7 @@
     height: 160px;
     width: 85%;
     text-align: center;
-    top: 300px;
+    top: 350px;
     left: 50%;
     transform: translate(-50%, -50%);
     color: black;
@@ -65,14 +65,38 @@
 }
 
 .btn {
-    padding: 6px 12px; !important
+    padding: 16px 16px; !important
     font-size: 20px; !important
     border-radius: 10px; !important
-    width: 50%;
+}
+
+.generatedImageContainer {
+    display: none;
+    height: 532px;
+    width: 532px;
+    position: absolute;
+    top: 430px;
+    background: rgba(0, 0, 0, 0.1);
+    left: 50vw;
+    transform:translateX(-50%);
+    transition: all 1s ease-in;
+    margin-bottom: 100px;
+}
+
+.generatedImageContainer img {
+    max-height: 100%;
+    max-width: 100%;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    text-align: center;
+    box-shadow: 2px 2px 4px black;
+    border-top-right-radius: 4px;
+    transition: all 1s ease-in;
 }
 
 .gallery {
-    top: 360px;
+    top: 430px;
     height: 65%;
     width: 100%;
     left: 0;
@@ -82,6 +106,7 @@
     overflow-y: hidden;
     white-space: nowrap;
     background: rgba(0, 0, 0, 0.1);
+    transition: all 1s ease-in;
 }
 
 .gallery-overlay {
@@ -108,15 +133,16 @@
     height: 50px;
     color: white;
     background: rgba(0, 0, 0, 0.5);
-    top: 55%;
+    top: 50%;
+    transform: translateY(130%);
 }
 
 #slideLeft {
-    left: 10px;
+    left: 20px;
 }
 
 #slideRight {
-    right: 0;
+    right: 10px;
 }
 
 #slideLeft:hover, #slideRight:hover {
@@ -137,12 +163,16 @@
 
 .figure figcaption {
     color: black;
-    padding: 6px;
+    box-shadow: 2px 2px 4px black;
+    border-top-right-radius: 4px;
     overflow: visible;
-    white-space: normal;
-    background: rgba(0, 0, 0, 0.16);
+    white-space: break-spaces;
+    background: rgba(0, 0, 0, 0.1);
     text-align: left;
     text-justify: none;
+    text-indent: 10px;
+    padding-left: 10px;
+    margin: 4px;
 }
 
 .gradient {
@@ -203,7 +233,7 @@
 
 /* projects section css */
 .skillsText.card {
-    height: 280px;
+    height: 310px;
     cursor: pointer;
 }
 .skillsIcon {
@@ -241,4 +271,5 @@
 
 * {
     scroll-behavior: smooth;
+    scrollbar-gutter: auto;
 }

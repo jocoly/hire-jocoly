@@ -53,15 +53,21 @@
 
     <div class="prompt_form">
         <div class="row">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="exampleInput" aria-describedby="promptHelp" placeholder="Prompt">
+            <div class="form-group">
+                <form>
+                    <input type="search" class="form-control" id="promptInput" aria-describedby="promptHelp" placeholder="Prompt" autofocus="autofocus">
                     <div class="hero-sub">Type a prompt to generate an image.</div>
-                </div>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-dark me-md-2" type="button">Submit</button>
-                <button class="btn btn-dark" type="button">Try a random prompt</button>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-dark me-md-2" type="button" id="promptSubmit">Submit</button>
+                        <button class="btn btn-dark" type="button" id="randomSubmit">Try a random prompt</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
+
+    <div class="generatedImageContainer" id="generatedImageContainer">
+        <img id="generatedImage" src="" alt="Generated at jocoly.com">
     </div>
 
     <div class="gallery" id="gallery">
@@ -74,21 +80,19 @@
         <div class="img">
             <figure class="figure">
                 <img class="figure-img" src="assets/sample/sample2.png" alt="Generated at jocoly.com">
-                <figcaption id="img2-caption"><i>The lake is blanketed in a thick layer of ice, a thin fog rising off the surface. The stars twinkle in the night sky, reflecting in the lake and creating a magical scene. The moon is a bright white, casting its light across the lake, highlighting the jagged edges of the ice. The stillness of the night is only broken by the occasional sound of a fish jumping from beneath the frozen lake.
-                </i></figcaption>
+                <figcaption id="img2-caption"><p>The lake is blanketed in a thick layer of ice, a thin fog rising off the surface. The stars twinkle in the night sky, reflecting in the lake and creating a magical scene. The moon is a bright white, casting its light across the lake, highlighting the jagged edges of the ice. The stillness of the night is only broken by the occasional sound of a fish jumping from beneath the frozen lake.</p></figcaption>
             </figure>
         </div>
         <div class="img">
             <figure class="figure">
                 <img class="figure-img" src="assets/sample/sample3.png" alt="Generated at jocoly.com">
-                <figcaption id="img3-caption"><i>The abandoned lamp sits in a desolate field, its metal base barely visible in the moonlight. The night is shrouded in a thick fog that swirls around the lamp, giving it a mysterious and eerie ambiance. The lamp is the only source of light in the field, and its yellow glow casts an eerie shadow on the ground. The fog creates an illusion of a dreamlike landscape, with the lamp the only anchor in the darkness.
-                </i></figcaption>
+                <figcaption id="img3-caption"><p>The abandoned lamp sits in a desolate field, its metal base barely visible in the moonlight. The night is shrouded in a thick fog that swirls around the lamp, giving it a mysterious and eerie ambiance. The lamp is the only source of light in the field, and its yellow glow casts an eerie shadow on the ground. The fog creates an illusion of a dreamlike landscape, with the lamp the only anchor in the darkness.</p></figcaption>
             </figure>
         </div>
         <div class="img">
             <figure class="figure">
                 <img class="figure-img" src="assets/sample/sample4.png" alt="Generated at jocoly.com">
-                <figcaption id="img4-caption"><i>The sky is awash with a beautiful mix of pink, orange, and yellow hues as the sun slowly sets behind the rocky mountain range. The jagged peaks of the mountains are silhouetted against the vibrant sky, their shapes highlighted by the bright light of the setting sun. The area around the mountains is still and quiet, the only sound being the gentle breeze that ripples through the grassy foothills. In the distance, a lone eagle soars through the sky, its wings outstretched as it takes in the amazing sight.</i></figcaption>
+                <figcaption id="img4-caption"><p>The sky is awash with a beautiful mix of pink, orange, and yellow hues as the sun slowly sets behind the rocky mountain range. The jagged peaks of the mountains are silhouetted against the vibrant sky, their shapes highlighted by the bright light of the setting sun. The area around the mountains is still and quiet, the only sound being the gentle breeze that ripples through the grassy foothills. In the distance, a lone eagle soars through the sky, its wings outstretched as it takes in the amazing sight.</p></figcaption>
             </figure>
         </div>
     </div>
@@ -104,7 +108,7 @@
 
 <!-- about section-->
 <section id="about">
-    <div class="container mt-4 pt-4">
+    <div class="container">
         <h1 class="text-center">About Me</h1>
         <div class="row mt-4">
             <div class="col-lg-4">
