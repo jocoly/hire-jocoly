@@ -53,13 +53,6 @@ promptSubmit.onclick = async function () {
     await generateImage(prompt);
 }
 
-randomSubmit.onclick = async function() {
-    let gptPrompt = "You will now act as a prompt generator. I will describe an image or a topic to you, and you will create a prompt that could be used for image-generation. If I input nothing, pick your own topic. The image I want to generate is: "
-    let prompt = document.getElementById('promptInput').value;
-    gptPrompt = gptPrompt + prompt;
-    let generatedPrompt = await getGPTResponse(gptPrompt);
-    await generateImage(generatedPrompt);
-}
 
 async function generateImage(prompt) {
     try {
@@ -71,6 +64,7 @@ async function generateImage(prompt) {
             const results = await callBackendPipeline(prompt, pipeline, numImages, imgUrl);
             if (results && results.length > 0) {
                 generatedImageUrl = results[0];
+                console.log("Img url: " + generatedImageUrl);
             } else {
                 new Error ("No image URL returned from the backend. ");
                 console.log("Error: No image URL returned from the backend " + Error);
@@ -82,7 +76,7 @@ async function generateImage(prompt) {
         let generatedImageContainer = document.getElementById('generatedImageContainer');
         let generatedImage = document.getElementById('generatedImage');
         generatedImageUrl = generatedImageUrl.slice(1);
-        generatedImageUrl = "./server" + generatedImageUrl;
+        generatedImageUrl = "./hire-jocoly/server" + generatedImageUrl;
         generatedImage.src = generatedImageUrl;
         generatedImage.onload = function () {
             adjustBannerHeight();
