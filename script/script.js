@@ -112,6 +112,7 @@ async function callBackendPipeline(prompt, pipeline, numImages, imgUrl) {
         fetch(backendUrl + "/process", {
             method: 'POST',
             headers: {
+                'ngrok-skip-browser-warning': 'true',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
