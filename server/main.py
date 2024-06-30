@@ -80,6 +80,9 @@ def process_api():
     with processing_lock:
         generation = process(text_prompt, pipeline, num, image_url)
     response = {'generation': generation}
+    response_headers = {
+                    'ngrok-skip-browser-warning': 'true',
+                }
     return jsonify(response)
 
 @app.route("/", methods=["GET"])
@@ -96,6 +99,9 @@ def serve_image(filename):
         else:
             print("File not found")
             return jsonify(error="File not found"), 404
+        response_headers = {
+                'ngrok-skip-browser-warning': 'true',
+            }
     except Exception as e:
         print(f"Error serving file: {e}")
         return jsonify(error=str(e)), 500
