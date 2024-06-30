@@ -20,7 +20,7 @@ import ssl
 import socket
 
 load_dotenv('./.env')
-app = Flask(__name__)
+app = Flask(__name__, static_folder='server/output')
 CORS(app)
 print("--> Starting the backend server. This may take some time.")
 
@@ -88,7 +88,7 @@ def health_check():
 
 @app.route('/server/output/<path:filename>')
 def serve_image(filename):
-return send_from_directory('ouput', filename)
+    return send_from_directory(app.static_folder, filename)
 
 def save_image(image, output_dir):
     file_name = str(uuid.uuid4()) + '.png'
