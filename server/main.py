@@ -86,6 +86,10 @@ def process_api():
 def health_check():
     return jsonify(success=True)
 
+@app.route('/server/output/<path:filename>')
+def serve_image(filename):
+return send_from_directory('ouput', filename)
+
 def save_image(image, output_dir):
     file_name = str(uuid.uuid4()) + '.png'
     image_path = os.path.join(output_dir, file_name)

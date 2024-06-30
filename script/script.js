@@ -75,8 +75,7 @@ async function generateImage(prompt) {
 
         let generatedImageContainer = document.getElementById('generatedImageContainer');
         let generatedImage = document.getElementById('generatedImage');
-        generatedImageUrl = generatedImageUrl.slice(1);
-        generatedImageUrl = "./hire-jocoly/server" + generatedImageUrl;
+        generatedImageUrl = generatedImageUrl.replace(/^\.\/output/, './server/output');
         generatedImage.src = generatedImageUrl;
         generatedImage.onload = function () {
             adjustBannerHeight();
