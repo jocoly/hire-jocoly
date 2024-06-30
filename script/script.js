@@ -1,6 +1,6 @@
 const config = {
     OUTPUT_DIR:"./output/",
-    BACKEND_ADDRESS:"https://e72a-74-134-135-85.ngrok-free.app",
+    BACKEND_ADDRESS:"https://aa2b-74-134-135-85.ngrok-free.app",
     PORT:"5000",
 
     STABLE_DIFFUSION:"true",
@@ -77,7 +77,7 @@ async function generateImage(prompt) {
         let generatedImage = document.getElementById('generatedImage');
         generatedImageUrl = generatedImageUrl.slice(1);
         console.log("Sliced img url: " + generatedImageUrl)
-        generatedImage.src = "https://e72a-74-134-135-85.ngrok-free.app/server" + generatedImageUrl;
+        generatedImage.src = config.BACKEND_ADDRESS + generatedImageUrl;
         console.log(generatedImage.src);
         generatedImage.onload = function () {
             adjustBannerHeight();
