@@ -82,7 +82,7 @@ async function generateImage(prompt) {
         let generatedImageContainer = document.getElementById('generatedImageContainer');
         let generatedImage = document.getElementById('generatedImage');
         generatedImageUrl = generatedImageUrl.slice(1);
-        generatedImageUrl = "./server/" + generatedImageUrl;
+        generatedImageUrl = "./server" + generatedImageUrl;
         generatedImage.src = generatedImageUrl;
         generatedImage.onload = function () {
             adjustBannerHeight();
