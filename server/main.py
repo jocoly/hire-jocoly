@@ -16,6 +16,8 @@ import torch
 import os
 from datasets import load_dataset
 from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
+import ssl
+import socket
 
 load_dotenv('./.env')
 app = Flask(__name__)
@@ -91,4 +93,4 @@ def save_image(image, output_dir):
     return image_path
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=os.getenv("PORT"), debug=False)
+    app.run(host="127.0.0.1", port=os.getenv("PORT"), debug=False)

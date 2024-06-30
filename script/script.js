@@ -1,6 +1,6 @@
 const config = {
     OUTPUT_DIR:"./output/",
-    BACKEND_ADDRESS:"74.134.135.85",
+    BACKEND_ADDRESS:"https://e72a-74-134-135-85.ngrok-free.app",
     PORT:"5000",
 
     STABLE_DIFFUSION:"true",
@@ -112,9 +112,9 @@ const requestTimeoutSeconds = 600000
 
 async function callBackendPipeline(prompt, pipeline, numImages, imgUrl) {
     const start_time = new Date();
-    const backendUrl = config.BACKEND_ADDRESS + ":" + config.PORT;
+    const backendUrl = config.BACKEND_ADDRESS;
     const response = await Promise.race([
-        fetch("http://" + backendUrl + "/process", {
+        fetch(backendUrl + "/process", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
