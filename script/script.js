@@ -1,6 +1,6 @@
 const config = {
     OUTPUT_DIR:"./output/",
-    BACKEND_ADDRESS:"127.0.0.1",
+    BACKEND_ADDRESS:"74.134.135.85",
     PORT:"5000",
 
     STABLE_DIFFUSION:"true",
