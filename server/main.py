@@ -86,7 +86,7 @@ def process_api():
 def health_check():
     return jsonify(success=True)
 
-@app.route('/server/output/<path:filename>')
+@app.route('/assets/output/<path:filename>')
 def serve_image(filename):
     try:
         file_path = os.path.join(app.static_folder, filename)
