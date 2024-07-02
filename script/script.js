@@ -1,6 +1,6 @@
 const config = {
     OUTPUT_DIR:"./output/",
-    BACKEND_ADDRESS:"major-vocal-vervet.ngrok-free.app",
+    BACKEND_ADDRESS:"https://major-vocal-vervet.ngrok-free.app",
     PORT:"5000",
 
     STABLE_DIFFUSION:"true",
