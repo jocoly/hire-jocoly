@@ -162,12 +162,12 @@
 }
 
 .figure figcaption {
-    color: black;
+    color: white;
     box-shadow: 2px 2px 4px black;
     border-top-right-radius: 4px;
     overflow: visible;
     white-space: break-spaces;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(37, 30, 54, 0.37);
     text-align: left;
     text-justify: none;
     text-indent: 10px;

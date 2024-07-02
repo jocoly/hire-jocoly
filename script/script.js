@@ -64,7 +64,6 @@ async function generateImage(prompt) {
             const results = await callBackendPipeline(prompt, pipeline, numImages, imgUrl);
             if (results && results.length > 0) {
                 generatedImageUrl = results[0];
-                console.log("Img url: " + generatedImageUrl);
             } else {
                 new Error ("No image URL returned from the backend. ");
                 console.log("Error: No image URL returned from the backend " + Error);
@@ -75,10 +74,7 @@ async function generateImage(prompt) {
 
         let generatedImageContainer = document.getElementById('generatedImageContainer');
         let generatedImage = document.getElementById('generatedImage');
-        generatedImageUrl = generatedImageUrl.slice(1);
-        console.log("Sliced img url: " + generatedImageUrl)
-        generatedImage.src = config.BACKEND_ADDRESS + generatedImageUrl;
-        console.log(generatedImage.src);
+        generatedImage.src = generatedImageUrl;
         generatedImage.onload = function () {
             adjustBannerHeight();
             repositionGallery();
@@ -112,7 +108,6 @@ async function callBackendPipeline(prompt, pipeline, numImages, imgUrl) {
         fetch(backendUrl + "/process", {
             method: 'POST',
             headers: {
-                'ngrok-skip-browser-warning': 'true',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({

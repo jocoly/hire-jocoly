@@ -5,8 +5,10 @@ import time
 import uuid
 from io import BytesIO
 from pathlib import Path
-
 import requests
+import urllib
+import base64
+import json
 from PIL import Image
 from diffusers.utils import export_to_video
 from dotenv import load_dotenv
@@ -16,10 +18,9 @@ import torch
 import os
 from datasets import load_dataset
 from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
-import ssl
-import socket
 
-load_dotenv('./.env')
+
+load_dotenv('../.env')
 app = Flask(__name__, static_folder='./output')
 CORS(app)
 print("--> Starting the backend server. This may take some time.")
@@ -34,6 +35,10 @@ print("Loading Stable Diffusion 2 base model")
 pipe = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-2-base", torch_dtype=torch.float16, revision="fp16")
 pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
 pipe = pipe.to("cuda")
+
+CLIENT_ID = os.getenv("IMGUR_CLIENT_ID")
+imgur_url = "https://api.imgur.com/3/image"
+headers = {"Authorization": "Client-ID " + CLIENT_ID}
 
 processing_lock = threading.Lock()
 
@@ -65,7 +70,6 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
             for index in range(num):
                 image_path = save_image(images_array[index], output_dir)
                 process_output.append(image_path)
-
     gen_time = time.time() - start_time
     print(f"Created generation in {gen_time} seconds")
     return process_output
@@ -82,29 +86,20 @@ def process_api():
     response = {'generation': generation}
     return jsonify(response)
 
-@app.route("/", methods=["GET"])
-def health_check():
-    return jsonify(success=True)
-
-@app.route('/assets/output/<path:filename>')
-def serve_image(filename):
-    try:
-        file_path = os.path.join(app.static_folder, filename)
-        print(f"Trying to serve file from path: {file_path}")  # Debugging log
-        if os.path.exists(file_path):
-            return send_from_directory(app.static_folder, filename)
-        else:
-            print("File not found")
-            return jsonify(error="File not found"), 404
-    except Exception as e:
-        print(f"Error serving file: {e}")
-        return jsonify(error=str(e)), 500
-
 def save_image(image, output_dir):
     file_name = str(uuid.uuid4()) + '.png'
     image_path = os.path.join(output_dir, file_name)
     image.save(image_path, format='png')
-    return image_path
+    image_url = upload_image(image_path)
+    return image_url
+
+def upload_image(image):
+    with open(image, "rb") as file:
+        data = file.read()
+        base64_data = base64.b64encode(data)
+    response = requests.post(imgur_url, headers=headers, data={"image": base64_data})
+    url = response.json()["data"]["link"]
+    return url
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=os.getenv("PORT"), debug=False)
+    app.run(host=os.getenv("BACKEND_ADDRESS"), port=os.getenv("PORT"), debug=False)
