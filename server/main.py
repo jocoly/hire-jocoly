@@ -99,6 +99,10 @@ def upload_image(image):
         base64_data = base64.b64encode(data)
     response = requests.post(imgur_url, headers=headers, data={"image": base64_data})
     url = response.json()["data"]["link"]
+    if os.path.exists(image):
+      os.remove(image)
+    else:
+      print("The file does not exist")
     return url
 
 if __name__ == "__main__":
