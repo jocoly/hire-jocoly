@@ -1,5 +1,4 @@
 const config = {
-    OUTPUT_DIR:"./output/",
     BACKEND_ADDRESS:"https://major-vocal-vervet.ngrok-free.app",
     PORT:"5000",
 
@@ -14,15 +13,46 @@ const config = {
 }
 
 // add class navbarDark on navbar scroll
-const header = document.querySelector('.navbar');
-console.log(header)
-window.onscroll = function() {
+const navBar = document.querySelector('.navbar');
+window.onscroll = async function () {
     const top = window.scrollY;
-    if(top >=100) {
-        header.classList.add('navbarLight');
+    if (top >= 100) {
+        navBar.classList.add('navbarLight');
+        navBar.classList.remove('navbarWhite');
+    } else if (Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) < 1000) {
+        navBar.classList.add('navbarWhite');
+    } else {
+        navBar.classList.remove('navbarLight');
     }
-    else {
-        header.classList.remove('navbarLight');
+}
+window.addEventListener('load', async function() {
+    await writeLoop();
+})
+
+window.onload = function() {
+    adjustNavBarVisibility()
+}
+
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+const myName = "Joseph Colin Lyell"
+const typewriter = document.getElementById("typewriter");
+let sleepTime = 100;
+async function writeLoop()  {
+    for (let i=0; i< myName.length; i++) {
+        typewriter.innerText = myName.substring(0, i+1);
+        await sleep(sleepTime);
+    }
+}
+
+
+function adjustNavBarVisibility() {
+    let navBar = document.querySelector('.navbar');
+    let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+    if (vw < 1000) {
+        navBar.classList.add('navbarWhite');
     }
 }
 
@@ -47,6 +77,8 @@ buttonLeft.onclick = function () {
 
 const promptSubmit = document.getElementById('promptSubmit');
 const randomSubmit = document.getElementById('randomSubmit');
+let loadingIcon = document.getElementById('loadingIcon');
+let generatedImageContainer = document.getElementById('generatedImageContainer');
 
 promptSubmit.onclick = async function () {
     let prompt = document.getElementById('promptInput').value;
@@ -59,8 +91,13 @@ async function generateImage(prompt) {
         let pipeline = "StableDiffusion"
         let numImages = 1;
         let imgUrl = "";
+        let loadingIcon = document.getElementById('loadingIcon');
         let generatedImageUrl;
         try {
+            adjustBannerHeight();
+            repositionGallery();
+            generatedImageContainer.style.display = 'block';
+            loadingIcon.style.display="block";
             const results = await callBackendPipeline(prompt, pipeline, numImages, imgUrl);
             if (results && results.length > 0) {
                 generatedImageUrl = results[0];
@@ -71,15 +108,10 @@ async function generateImage(prompt) {
         } catch (error) {
             console.log("Error getting results from the backend: " + error);
         }
-
-        let generatedImageContainer = document.getElementById('generatedImageContainer');
         let generatedImage = document.getElementById('generatedImage');
         generatedImage.src = generatedImageUrl;
-        generatedImage.onload = function () {
-            adjustBannerHeight();
-            repositionGallery();
-            generatedImageContainer.style.display = 'block';
-        }
+        generatedImage.style.display="block"
+        loadingIcon.style.display="none";
     } catch (error) {
         console.error("Error generating image:", error);
     }

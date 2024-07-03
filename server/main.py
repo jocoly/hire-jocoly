@@ -1,12 +1,10 @@
 import random
-import subprocess
 import threading
 import time
 import uuid
 from io import BytesIO
 from pathlib import Path
 import requests
-import urllib
 import base64
 import json
 from PIL import Image
@@ -16,33 +14,43 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import torch
 import os
-from datasets import load_dataset
 from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
 
-
+# load env variables
 load_dotenv('../.env')
+# initialize Flask app
 app = Flask(__name__, static_folder='./output')
 CORS(app)
+
+
 print("--> Starting the backend server. This may take some time.")
 
-print("CUDA-enabled gpu detected: " + str(torch.cuda.is_available()))
-if torch.cuda.is_available():
+# check for CUDA enabled GPU
+cudaGPU = torch.cuda.is_available()
+print("CUDA-enabled gpu detected: " + str(cudaGPU))
+if cudaGPU:
     device = torch.device('cuda:0')
 else:
     device = torch.device('cpu')
 
+# load model pipelines
 print("Loading Stable Diffusion 2 base model")
 pipe = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-2-base", torch_dtype=torch.float16, revision="fp16")
 pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
 pipe = pipe.to("cuda")
 
+# imgur upload config
 CLIENT_ID = os.getenv("IMGUR_CLIENT_ID")
 imgur_url = "https://api.imgur.com/3/image"
 headers = {"Authorization": "Client-ID " + CLIENT_ID}
 
+# initialize process lock
 processing_lock = threading.Lock()
 
+# initialize other variables
+OUTPUT_DIR = os.getenv("OUTPUT_DIR")
 
+# process can take an image url; in the future some models may require uploading an image
 def process(prompt: str, pipeline: str, num: int, img_url: str):
     start_time = time.time()
     print("Processing query...")
@@ -52,7 +60,6 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
         generator = torch.Generator(device=device).manual_seed(seed)
     else:
         generator = None
-    output_dir = os.getenv("OUTPUT_DIR")
     process_output = []
     match pipeline:
         case "StableDiffusion":
@@ -66,14 +73,15 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
                 height=int(os.getenv("SD_IMAGE_HEIGHT")),
                 generator=generator,
             ).images
-            Path(output_dir).mkdir(parents=True, exist_ok=True)
+            Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
             for index in range(num):
-                image_path = save_image(images_array[index], output_dir)
+                image_path = save_and_upload(images_array[index])
                 process_output.append(image_path)
     gen_time = time.time() - start_time
     print(f"Created generation in {gen_time} seconds")
     return process_output
 
+#API for javascript
 @app.route("/process", methods=["POST"])
 def process_api():
     json_data = request.get_json(force=True)
@@ -86,9 +94,10 @@ def process_api():
     response = {'generation': generation}
     return jsonify(response)
 
-def save_image(image, output_dir):
+#
+def save_and_upload(image):
     file_name = str(uuid.uuid4()) + '.png'
-    image_path = os.path.join(output_dir, file_name)
+    image_path = os.path.join(OUTPUT_DIR, file_name)
     image.save(image_path, format='png')
     image_url = upload_image(image_path)
     return image_url
@@ -106,4 +115,4 @@ def upload_image(image):
     return url
 
 if __name__ == "__main__":
-    app.run(host=os.getenv("BACKEND_ADDRESS"), port=os.getenv("PORT"), debug=False)
+    app.run(host=os.getenv("BACKEND_ADDRESS"), port=int(os.getenv("PORT")), debug=False)

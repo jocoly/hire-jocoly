@@ -15,7 +15,7 @@
 <!-- navbar -->
 <nav class="navbar navbar-expand-lg fixed-top navbar-light navbarScroll">
     <div class="container">
-        <a class="navbar-brand" href="#">Joseph Colin Lyell</a>
+        <a class="navbar-brand" href="#"><span id="typewriter"></span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -55,8 +55,7 @@
         <div class="row">
             <div class="form-group">
                 <form>
-                    <input type="search" class="form-control" id="promptInput" aria-describedby="promptHelp" placeholder="Prompt" autofocus="autofocus">
-                    <div class="hero-sub">Type a prompt to generate an image.</div>
+                    <input type="search" class="form-control" id="promptInput" aria-describedby="promptHelp" placeholder="Type a prompt to generate an image" autofocus="autofocus">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-dark me-md-2" type="button" id="promptSubmit">Submit</button>
                         <button class="btn btn-dark" type="button" id="randomSubmit">Try a random prompt</button>
@@ -67,6 +66,9 @@
     </div>
 
     <div class="generatedImageContainer" id="generatedImageContainer">
+        <div class="spinner-border" id="loadingIcon" role="status">
+            <span class ="sr-only">Loading...</span>
+        </div>
         <img id="generatedImage" src="" alt="Generated at jocoly.com">
     </div>
 
@@ -114,7 +116,6 @@
             <div class="col-lg-4">
                 <img src="assets/about.jpg" class= "imageAboutPage" alt="">
             </div>
-
             <div class="col-lg-8">
                 <p>
                     An enthusiastic IT specialist eager to contribute to team success through hard work, attention to detail and excellent organizational skills. I have experience with corporate application deployment, break-fix troubleshooting and enterprise operations database management.
@@ -245,7 +246,6 @@
     <div class="container mt-3">
         <h1 class="text-center">Projects</h1>
         <div class="row">
-
             <div class="col-lg-4 mt-4">
                 <div class="card">
                     <img class="card-img-top" src="assets/projectsImage1.jpg" alt="Card image" style="width:100%">
@@ -264,7 +264,7 @@
                     <img class="card-img-top" src="assets/projectsImage2.jpg" alt="Card image" style="width:100%">
                     <div class="card-body">
                         <h4 class="card-title">This site!</h4>
-                        <p class="card-text">Made with Bootstrap in one evening. It's not interesting (yet); go check out the AI Discord bot!</p>
+                        <p class="card-text">Generates images from the GPU in my personal computer & serves as a resume/portfolio site.</p>
                         <div class="text-center">
                             <a href="https://github.com/jocoly/hire-jocoly" class="btn btn-success">Github</a>
                         </div>
@@ -282,7 +282,6 @@
         <h2 class="text-center">josephlyell@gmail.com</h2>
         <div class="row mt-4">
             <div class="col-lg-6">
-                <!-- to edit google map goto https://www.embed-map.com type your location, generate html code and copy the html  -->
                 <div style="overflow:hidden;max-width:100%;width:500px;height:500px;">
                     <div id="my-map-canvas" style="height:100%; width:100%;max-width:100%;">
                         <iframe style="height:100%;width:100%;border:0;" src="https://www.google.com/maps/embed/v1/place?q=Louisville,+KY,+USA&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8">

@@ -7,9 +7,12 @@
     padding-bottom: 4rem;
 }
 
-/* display background color on navbar scroll */
 .navbarScroll.navbarLight {
     background-color: rgb(166, 144, 246);
+}
+
+.navbarScroll.navbarWhite {
+    display: none;
 }
 
 .nav-item {
@@ -19,6 +22,16 @@
 .navbar-brand {
     font-weight: bold;
     color: black;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 100%
+    }
+    50% {
+        opacity: 0;
+    }
+
 }
 
 @keyframes rotate {
@@ -51,6 +64,10 @@
     display: inline-block;
 }
 
+.form-control {
+    margin: 13px;
+}
+
 .prompt_form {
     height: 160px;
     width: 85%;
@@ -64,12 +81,6 @@
     display: inline-block;
 }
 
-.btn {
-    padding: 16px 16px; !important
-    font-size: 20px; !important
-    border-radius: 10px; !important
-}
-
 .generatedImageContainer {
     display: none;
     height: 532px;
@@ -78,7 +89,7 @@
     top: 430px;
     background: rgba(0, 0, 0, 0.1);
     left: 50vw;
-    transform:translateX(-50%);
+    transform: translateX(-50%);
     transition: all 1s ease-in;
     margin-bottom: 100px;
 }
@@ -93,6 +104,15 @@
     box-shadow: 2px 2px 4px black;
     border-top-right-radius: 4px;
     transition: all 1s ease-in;
+    display: none;
+}
+
+.spinner-border {
+    display: none;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
 }
 
 .gallery {
@@ -153,7 +173,6 @@
     height: 512px;
     width: 512px;
     position: relative;
-    float: left;
     box-shadow: 2px 2px 4px black;
     border-top-right-radius: 4px;
     margin: 10px;
@@ -206,6 +225,7 @@
     border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
     position: relative;
     overflow: hidden;
+    max-width: 100vw;
     transition: all 0.5s ease-out;
 }
 
@@ -215,9 +235,7 @@
 .hero_desc {
     font-size: 2rem;
 }
-.hero_sub {
-    font-size: 2rem;
-}
+
 .hero-text {
     text-align: center;
     top: 50%;
@@ -271,5 +289,4 @@
 
 * {
     scroll-behavior: smooth;
-    scrollbar-gutter: auto;
 }
