@@ -92,12 +92,14 @@ async function generateImage(prompt) {
         let numImages = 1;
         let imgUrl = "";
         let loadingIcon = document.getElementById('loadingIcon');
+        let generatedImage = document.getElementById('generatedImage');
         let generatedImageUrl;
         try {
             adjustBannerHeight();
             repositionGallery();
             generatedImageContainer.style.display = 'block';
             loadingIcon.style.display="block";
+            generatedImage.style.display="none";
             const results = await callBackendPipeline(prompt, pipeline, numImages, imgUrl);
             if (results && results.length > 0) {
                 generatedImageUrl = results[0];
@@ -108,7 +110,6 @@ async function generateImage(prompt) {
         } catch (error) {
             console.log("Error getting results from the backend: " + error);
         }
-        let generatedImage = document.getElementById('generatedImage');
         generatedImage.src = generatedImageUrl;
         generatedImage.style.display="block"
         loadingIcon.style.display="none";

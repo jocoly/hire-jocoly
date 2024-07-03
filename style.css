@@ -24,16 +24,6 @@
     color: black;
 }
 
-@keyframes blink {
-    0% {
-        opacity: 100%
-    }
-    50% {
-        opacity: 0;
-    }
-
-}
-
 @keyframes rotate {
     0% {
         transform: rotate(0deg);
@@ -112,7 +102,7 @@
     position: absolute;
     text-align: center;
     top: 50%;
-    left: 50%;
+    right: 50%;
 }
 
 .gallery {
