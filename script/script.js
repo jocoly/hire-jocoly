@@ -284,9 +284,6 @@ let randomModel = "";
 function selectModel(item) {
     promptSelect.innerHTML = item.innerHTML;
     switch (item.innerHTML) {
-        case "Model":
-            moedel = config.PIPELINES_ARRAY[0];
-            break;
         case config.MODELS_ARRAY[0]:
             model = config.PIPELINES_ARRAY[0];
             break;
@@ -304,6 +301,7 @@ function selectModel(item) {
             console.log(model)
             break;
         default:
+            model = config.PIPELINES_ARRAY[0];
             break;
     }
 }
