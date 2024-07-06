@@ -47,7 +47,7 @@ const config = {
             "Openjourney",
             "DreamShaper",
             "DreamlikePhotoreal",
-            "Vox2",
+            "vox2",
         ]
 
 }
@@ -279,7 +279,6 @@ const generatedImageContainer = document.getElementById('generatedImageContainer
 let model = config.DEFAULT_MODEL;
 
 promptSubmit.onclick = async function () {
-    resetInvalidPrompt();
     let prompt = document.getElementById('promptInput').value;
     if (prompt === "") {
         prompt = document.getElementById('promptInput').placeholder;
@@ -288,22 +287,25 @@ promptSubmit.onclick = async function () {
         } else {
             await buttonsLoadingActions(prompt);
         }
+    } else if (prompt.length>75) {
+        invalidPrompt();
     } else {
         await buttonsLoadingActions(prompt);
     }
+
 }
 
 function invalidPrompt() {
     promptSubmit.style.animation = "kf_shake 0.4s 1 linear";
+    promptSubmit.style.boxShadow = "0 0 0.6rem #ff0000";
+    promptSubmit.style.backgroundColor = "red";
+    promptSubmit.style.borderColor = "red";
     promptSubmit.addEventListener('animationend', function() {
-        promptSubmit.style.animation = null;
+        promptSubmit.style.animation=null;
+        promptSubmit.style.boxShadow="none";
+        promptSubmit.style.backgroundColor="#0d6efd";
+        promptSubmit.style.borderColor="#0d6efd"
     }, { once: true });
-}
-
-function resetInvalidPrompt() {
-    promptSubmit.style.animation="none";
-    promptSubmit.style.boxShadow="none";
-    promptSubmit.style.backgroundColor="none";
 }
 
 randomSubmit.onclick = async function () {
@@ -359,6 +361,18 @@ function selectModel(modelButton) {
             break;
         case config.MODELS_ARRAY[4]:
             model = config.PIPELINES_ARRAY[4];
+            break;
+        case config.MODELS_ARRAY[5]:
+            model = config.PIPELINES_ARRAY[5];
+            break;
+        case config.MODELS_ARRAY[6]:
+            model = config.PIPELINES_ARRAY[6];
+            break;
+        case config.MODELS_ARRAY[7]:
+            model = config.PIPELINES_ARRAY[7];
+            break;
+        case config.MODELS_ARRAY[8]:
+            model = config.PIPELINES_ARRAY[8];
             break;
         case 'Random':
             model = config.PIPELINES_ARRAY[Math.floor(Math.random()*config.PIPELINES_ARRAY.length)];
