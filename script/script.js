@@ -51,13 +51,14 @@ window.onbeforeunload = function () {
 
 // check viewport width; for mobile or <1000 px width; don't load the header until the page is scrolled
 window.onload = function() {
-    adjustNavBarVisibility()
+    smallDeviceActions()
 }
 
 // navbar is initially transparent on desktop displays
 // initially completely hidden on mobile displays
 // after scrolling, the nav bar turns opaque (for both mobile and desktop)
 const navBar = document.querySelector('.navbar');
+const randomSubmit = document.getElementById('randomSubmit');
 window.onscroll = async function () {
     const top = window.scrollY;
     if (top >= 100) {
@@ -70,11 +71,11 @@ window.onscroll = async function () {
     }
 }
 
-function adjustNavBarVisibility() {
-    let navBar = document.querySelector('.navbar');
+function smallDeviceActions() {
     let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
     if (vw < 1000) {
         navBar.classList.add('navbarWhite');
+        randomSubmit.style.display="none";
     }
 }
 
@@ -190,7 +191,6 @@ img8.onmouseleave = function () {
 
 // image generation section (slides the rest of the page down when it loads)
 const promptSubmit = document.getElementById('promptSubmit');
-const randomSubmit = document.getElementById('randomSubmit');
 let loadingIcon = document.getElementById('loadingIcon');
 const generatedImageContainer = document.getElementById('generatedImageContainer');
 let model = config.DEFAULT_MODEL;
