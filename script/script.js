@@ -281,9 +281,9 @@ const promptSelect = document.getElementById('dropdownMenu1');
 let randomModel = "";
 
 // model vs pipeline is just changing the formatting from what the web form displays (model) to what the code uses (pipeline)
-function selectModel(item) {
-    promptSelect.innerHTML = item.innerHTML;
-    switch (item.innerHTML) {
+function selectModel(modelButton) {
+    promptSelect.innerHTML = modelButton.innerHTML;
+    switch (modelButton.innerHTML) {
         case config.MODELS_ARRAY[0]:
             model = config.PIPELINES_ARRAY[0];
             break;
@@ -304,10 +304,6 @@ function selectModel(item) {
             model = config.PIPELINES_ARRAY[0];
             break;
     }
-}
-
-function cycleRandomModel(){
-
 }
 
 function adjustBannerHeight() {
