@@ -60,6 +60,13 @@
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-dark me-md-2" type="button" id="promptSubmit">Submit</button>
                         <button class="btn btn-dark" type="button" id="randomSubmit">Try a random prompt</button>
+                        <div class="dropdown">
+                            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu1" data-bs-toggle="dropdown">Model</button>
+                            <div class="dropdown-menu">
+                                <li><a class="dropdown-item" onclick="selectModel(this)" href="#">Stable Diffusion 2 (base)</a></li>
+                                <li><a class="dropdown-item" onclick="selectModel(this)"  href="#">Modelscope Text-to-Video</a></li>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -74,39 +81,57 @@
     </div>
 
     <div class="gallery" id="gallery">
-        <div class="img">
-            <figure class="figure">
-                <img class="figure-img" src="assets/sample/sample1.png" alt="Generated at jocoly.com">
-                <figcaption id="img1-caption"><p>In the depths of the old forest, the moss-covered trees stand tall, their trunks gently curving inwards like a protective embrace. What secrets do these trees keep?</p></figcaption>
-            </figure>
-        </div>
-        <div class="img">
-            <figure class="figure">
-                <img class="figure-img" src="assets/sample/sample2.png" alt="Generated at jocoly.com">
-                <figcaption id="img2-caption"><p>The lake is blanketed in a thick layer of ice, a thin fog rising off the surface. The stars twinkle in the night sky, reflecting in the lake and creating a magical scene. The moon is a bright white, casting its light across the lake, highlighting the jagged edges of the ice. The stillness of the night is only broken by the occasional sound of a fish jumping from beneath the frozen lake.</p></figcaption>
-            </figure>
-        </div>
-        <div class="img">
-            <figure class="figure">
-                <img class="figure-img" src="assets/sample/sample3.png" alt="Generated at jocoly.com">
-                <figcaption id="img3-caption"><p>The abandoned lamp sits in a desolate field, its metal base barely visible in the moonlight. The night is shrouded in a thick fog that swirls around the lamp, giving it a mysterious and eerie ambiance. The lamp is the only source of light in the field, and its yellow glow casts an eerie shadow on the ground. The fog creates an illusion of a dreamlike landscape, with the lamp the only anchor in the darkness.</p></figcaption>
-            </figure>
-        </div>
-        <div class="img">
-            <figure class="figure">
-                <img class="figure-img" src="assets/sample/sample4.png" alt="Generated at jocoly.com">
-                <figcaption id="img4-caption"><p>The sky is awash with a beautiful mix of pink, orange, and yellow hues as the sun slowly sets behind the rocky mountain range. The jagged peaks of the mountains are silhouetted against the vibrant sky, their shapes highlighted by the bright light of the setting sun. The area around the mountains is still and quiet, the only sound being the gentle breeze that ripples through the grassy foothills. In the distance, a lone eagle soars through the sky, its wings outstretched as it takes in the amazing sight.</p></figcaption>
-            </figure>
+        <div class="gallery-row">
+            <div class="img" id="img1">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample1.png" alt="Generated at jocoly.com" id="img1">
+                    <figcaption id="img1-caption"><p>In the depths of the old forest, the moss-covered trees stand tall, their trunks gently curving inwards like a protective embrace. What secrets do these trees keep?</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img2">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample2.png" alt="Generated at jocoly.com" id="img2">
+                    <figcaption id="img2-caption"><p>The lake is blanketed in a thick layer of ice, a thin fog rising off the surface. The stars twinkle in the night sky, reflecting in the lake and creating a magical scene. The moon is a bright white, casting its light across the lake, highlighting the jagged edges of the ice. The stillness of the night is only broken by the occasional sound of a fish jumping from beneath the frozen lake.</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img3">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample3.png" alt="Generated at jocoly.com" id="img3">
+                    <figcaption id="img3-caption"><p>The abandoned lamp sits in a desolate field, its metal base barely visible in the moonlight. The night is shrouded in a thick fog that swirls around the lamp, giving it a mysterious and eerie ambiance. The lamp is the only source of light in the field, and its yellow glow casts an eerie shadow on the ground. The fog creates an illusion of a dreamlike landscape, with the lamp the only anchor in the darkness.</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img4">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample4.png" alt="Generated at jocoly.com" id="img4">
+                    <figcaption id="img4-caption"><p>The sky is awash with a beautiful mix of pink, orange, and yellow hues as the sun slowly sets behind the rocky mountain range. The jagged peaks of the mountains are silhouetted against the vibrant sky, their shapes highlighted by the bright light of the setting sun. The area around the mountains is still and quiet, the only sound being the gentle breeze that ripples through the grassy foothills. In the distance, a lone eagle soars through the sky, its wings outstretched as it takes in the amazing sight.</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img5">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample1.png" alt="Generated at jocoly.com" id="img1">
+                    <figcaption id="img5-caption"><p>In the depths of the old forest, the moss-covered trees stand tall, their trunks gently curving inwards like a protective embrace. What secrets do these trees keep?</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img6">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample2.png" alt="Generated at jocoly.com" id="img2">
+                    <figcaption id="img6-caption"><p>The lake is blanketed in a thick layer of ice, a thin fog rising off the surface. The stars twinkle in the night sky, reflecting in the lake and creating a magical scene. The moon is a bright white, casting its light across the lake, highlighting the jagged edges of the ice. The stillness of the night is only broken by the occasional sound of a fish jumping from beneath the frozen lake.</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img7">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample3.png" alt="Generated at jocoly.com" id="img3">
+                    <figcaption id="img7-caption"><p>The abandoned lamp sits in a desolate field, its metal base barely visible in the moonlight. The night is shrouded in a thick fog that swirls around the lamp, giving it a mysterious and eerie ambiance. The lamp is the only source of light in the field, and its yellow glow casts an eerie shadow on the ground. The fog creates an illusion of a dreamlike landscape, with the lamp the only anchor in the darkness.</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img8">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample4.png" alt="Generated at jocoly.com" id="img4">
+                    <figcaption id="img8-caption"><p>The sky is awash with a beautiful mix of pink, orange, and yellow hues as the sun slowly sets behind the rocky mountain range. The jagged peaks of the mountains are silhouetted against the vibrant sky, their shapes highlighted by the bright light of the setting sun. The area around the mountains is still and quiet, the only sound being the gentle breeze that ripples through the grassy foothills. In the distance, a lone eagle soars through the sky, its wings outstretched as it takes in the amazing sight.</p></figcaption>
+                </figure>
+            </div>
         </div>
     </div>
-
-    <div class="gallery-overlay">
-        <div class="gallery-buttons">
-            <button id="slideLeft"><</button>
-            <button id="slideRight">></button>
-        </div>
-    </div>
-
 </section>
 
 <!-- about section-->

@@ -1,5 +1,11 @@
-// config goes here
-// will convert this to a module at some point and put it in a .config file
+
+/*
+*
+*
+*       CONFIG
+*
+*
+* */
 
 const config = {
     BACKEND_ADDRESS:"https://major-vocal-vervet.ngrok-free.app",
@@ -25,12 +31,27 @@ const config = {
         "A squirrel holding an umbrella, standing under a gentle rain shower",
         "A rabbit painting colorful eggs, surrounded by spring blooms",
         "A kitten napping in a hammock made of spider webs, in a fairy-tale garden",
-    ]
+    ],
+
+    DEFAULT_MODEL: "StableDiffusion", // used in match function for generateImage function
 }
 
 // scroll to the top of the page on refresh
 window.onbeforeunload = function () {
     window.scrollTo(0,0);
+}
+
+/*
+*
+*
+*       NAVBAR
+*
+*
+* */
+
+// check viewport width; for mobile or <1000 px width; don't load the header until the page is scrolled
+window.onload = function() {
+    adjustNavBarVisibility()
 }
 
 // navbar is initially transparent on desktop displays
@@ -49,16 +70,25 @@ window.onscroll = async function () {
     }
 }
 
+function adjustNavBarVisibility() {
+    let navBar = document.querySelector('.navbar');
+    let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+    if (vw < 1000) {
+        navBar.classList.add('navbarWhite');
+    }
+}
+
+// collapse navbar on mobile
+const navLinks = document.querySelectorAll('.nav-item')
+const menuToggle = document.getElementById('navbarSupportedContent')
+navLinks.forEach((l) => {
+    l.addEventListener('click', () => { new bootstrap.Collapse(menuToggle).toggle() })
+})
+
 // typewriter animation on the navbar brand name
 window.addEventListener('load', async function() {
     await writeLoop();
 })
-
-// check viewport width; for mobile or <1000 px width; don't load the header until the page is scrolled
-window.onload = function() {
-    adjustNavBarVisibility()
-}
-
 const myName = "Joseph Colin Lyell"
 const typewriter = document.getElementById("typewriter");
 let sleepTime = 100;
@@ -71,70 +101,137 @@ async function writeLoop()  {
         await sleep(sleepTime);
     }
 }
-function adjustNavBarVisibility() {
-    let navBar = document.querySelector('.navbar');
-    let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-    if (vw < 1000) {
-        navBar.classList.add('navbarWhite');
-    }
+
+/*
+*
+*
+*       GALLERY
+*
+*
+* */
+
+const banner = document.getElementById("home");
+const gallery = document.getElementById("gallery");
+const img1 = document.getElementById("img1");
+const img1Caption = document.getElementById("img1-caption");
+const img2 = document.getElementById("img2");
+const img2Caption = document.getElementById("img2-caption");
+const img3 = document.getElementById("img3");
+const img3Caption = document.getElementById("img3-caption");
+const img4 = document.getElementById("img4");
+const img4Caption = document.getElementById("img4-caption");
+const img5 = document.getElementById("img5");
+const img5Caption = document.getElementById("img5-caption");
+const img6 = document.getElementById("img6");
+const img6Caption = document.getElementById("img6-caption");
+const img7 = document.getElementById("img7");
+const img7Caption = document.getElementById("img7-caption");
+const img8 = document.getElementById("img8");
+const img8Caption = document.getElementById("img8-caption");
+
+img1.onmouseover = function () {
+    img1Caption.style.display="block"
+}
+img1.onmouseleave = function () {
+    img1Caption.style.display="none"
+}
+img2.onmouseover = function () {
+    img2Caption.style.display="block"
+}
+img2.onmouseleave = function () {
+    img2Caption.style.display="none"
+}
+img3.onmouseover = function () {
+    img3Caption.style.display="block"
+}
+img3.onmouseleave = function () {
+    img3Caption.style.display="none"
+}
+img4.onmouseover = function () {
+    img4Caption.style.display="block"
+}
+img4.onmouseleave = function () {
+    img4Caption.style.display="none"
+}
+img5.onmouseover = function () {
+    img5Caption.style.display="block"
+}
+img5.onmouseleave = function () {
+    img5Caption.style.display="none"
+}
+img6.onmouseover = function () {
+    img6Caption.style.display="block"
+}
+img6.onmouseleave = function () {
+    img6Caption.style.display="none"
+}
+img7.onmouseover = function () {
+    img7Caption.style.display="block"
+}
+img7.onmouseleave = function () {
+    img7Caption.style.display="none"
+}
+img8.onmouseover = function () {
+    img1Caption.style.display="block"
+}
+img8.onmouseleave = function () {
+    img1Caption.style.display="none"
 }
 
-// collapse navbar after click on small devices
-const navLinks = document.querySelectorAll('.nav-item')
-const menuToggle = document.getElementById('navbarSupportedContent')
 
-// navbar collapse hamburger menu
-navLinks.forEach((l) => {
-    l.addEventListener('click', () => { new bootstrap.Collapse(menuToggle).toggle() })
-})
 
-// gallery scroll buttons
-const buttonRight = document.getElementById('slideRight');
-const buttonLeft = document.getElementById('slideLeft');
-
-buttonRight.onclick = function () {
-    document.getElementById('gallery').scrollLeft += 532;
-}
-
-buttonLeft.onclick = function () {
-    document.getElementById('gallery').scrollLeft -= 532;
-}
+/*
+*
+*
+*       PROMPT FORM/IMAGE GENERATION
+*
+*
+* */
 
 // image generation section (slides the rest of the page down when it loads)
 const promptSubmit = document.getElementById('promptSubmit');
 const randomSubmit = document.getElementById('randomSubmit');
 let loadingIcon = document.getElementById('loadingIcon');
-let generatedImageContainer = document.getElementById('generatedImageContainer');
+const generatedImageContainer = document.getElementById('generatedImageContainer');
+let model = config.DEFAULT_MODEL;
 
 promptSubmit.onclick = async function () {
     let prompt = document.getElementById('promptInput').value;
-    await generateImage(prompt);
+    await generateImage(prompt, model);
 }
 
 randomSubmit.onclick = async function () {
     let prompt = config.RANDOM_PROMPT_ARRAY[Math.floor(Math.random()*config.RANDOM_PROMPT_ARRAY.length)];
-    await generateImage(prompt);
+    await generateImage(prompt, model);
 }
+
+const promptSelect = document.getElementById('dropdownMenu1');
+
+function selectModel(item) {
+    promptSelect.innerHTML = item.innerHTML;
+    switch (item.innerHTML) {
+        case 'Stable Diffusion 2 (base)':
+            model = "StableDiffusion";
+            break;
+        case 'Modelscope Text-to-Video':
+            model = "TextToVideo";
+            break;
+        default:
+            break;
+    }
+}
+
 function adjustBannerHeight() {
-    let banner = document.getElementById("home");
     banner.style.minHeight = "1742px";
 }
-
-const gallery = document.getElementById("gallery");
-const slideLeft = document.getElementById("slideLeft");
-const slideRight = document.getElementById("slideRight");
 function repositionGallery() {
     gallery.style.top = "1012px";
-    slideLeft.style.top = "1262px";
-    slideRight.style.top = "1262px";
 }
-
 
 // calling the 'callBackendPipeline' function to send the prompt to the server and return an image url
 const requestTimeoutSeconds = 600000
-async function generateImage(prompt) {
+async function generateImage(prompt, pipeline) {
     try {
-        let pipeline = "StableDiffusion"
         let numImages = 1;
         let imgUrl = "";
         let generatedImage = document.getElementById('generatedImage');
@@ -162,6 +259,15 @@ async function generateImage(prompt) {
         console.error("Error generating image:", error);
     }
 }
+
+/*
+*
+*
+*       API
+*
+*
+* */
+
 async function callBackendPipeline(prompt, pipeline, numImages, imgUrl) {
     const start_time = new Date();
     const backendUrl = config.BACKEND_ADDRESS;

@@ -14,6 +14,7 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import torch
 import os
+import subprocess
 from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
 
 # load env variables
@@ -34,10 +35,20 @@ else:
     device = torch.device('cpu')
 
 # load model pipelines
-print("Loading Stable Diffusion 2 base model")
-pipe = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-2-base", torch_dtype=torch.float16, revision="fp16")
-pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
-pipe = pipe.to("cuda")
+
+if os.getenv("STABLE_DIFFUSION_2") == 'true':
+    print("Loading Stable Diffusion 2 base model")
+    pipe = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-2-base", torch_dtype=torch.float16, revision="fp16")
+    pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
+    pipe = pipe.to(device)
+
+if os.getenv("TEXT_TO_VIDEO") == 'true':
+    print("Loading Modelscope Text-to-Video model")
+    text_to_video_pipe = DiffusionPipeline.from_pretrained('damo-vilab/text-to-video-ms-1.7b', torch_dtype=torch.float16, variant='fp16')
+    text_to_video_pipe.scheduler = DPMSolverMultistepScheduler.from_config(text_to_video_pipe.scheduler.config)
+    text_to_video_pipe = text_to_video_pipe.to(device)
+    text_to_video_pipe.enable_model_cpu_offload()
+    text_to_video_pipe.enable_vae_slicing()
 
 # imgur upload config
 CLIENT_ID = os.getenv("IMGUR_CLIENT_ID")
@@ -77,11 +88,24 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
             for index in range(num):
                 image_path = save_and_upload(images_array[index])
                 process_output.append(image_path)
+        case "TextToVideo":
+            video_frames = text_to_video_pipe(
+                prompt=prompt,
+                negative_prompt=os.getenv("NEGATIVE_PROMPT"),
+                num_frames=int(os.getenv("VIDEO_NUM_FRAMES")),
+                num_inference_steps=int(os.getenv("VIDEO_INFERENCE_STEPS")),
+                guidance_scale=float(os.getenv("VIDEO_GUIDANCE_SCALE")),
+                width=256,
+                height=256,
+                generator=generator,
+            ).frames
+            gif_file_path = save_frames_and_upload(video_frames)
+            process_output.append(gif_file_path)
     gen_time = time.time() - start_time
     print(f"Created generation in {gen_time} seconds")
     return process_output
 
-#API for javascript
+# API for javascript
 @app.route("/process", methods=["POST"])
 def process_api():
     json_data = request.get_json(force=True)
@@ -94,7 +118,6 @@ def process_api():
     response = {'generation': generation}
     return jsonify(response)
 
-#
 def save_and_upload(image):
     file_name = str(uuid.uuid4()) + '.png'
     image_path = os.path.join(OUTPUT_DIR, file_name)
@@ -113,6 +136,22 @@ def upload_image(image):
     else:
       print("The file does not exist")
     return url
+
+def save_frames_and_upload(video_frames):
+    Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
+    file_name = str(uuid.uuid4()) + '.mp4'
+    mp4_file_path = os.path.join(OUTPUT_DIR, file_name)
+    export_to_video(video_frames, mp4_file_path)
+    gif_file_path = convert_to_gif(mp4_file_path)
+    os.remove(mp4_file_path)
+    image_url = upload_image(gif_file_path)
+    return image_url
+
+def convert_to_gif(mp4_file_path):
+    gif_file_path = mp4_file_path[:-4] + ".gif"
+    subprocess.run(['ffmpeg', '-i', mp4_file_path, '-vf', 'fps=10,scale=320:-1:flags=lanczos', gif_file_path],
+                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    return gif_file_path
 
 if __name__ == "__main__":
     app.run(host=os.getenv("BACKEND_ADDRESS"), port=int(os.getenv("PORT")), debug=False)

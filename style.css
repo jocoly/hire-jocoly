@@ -33,11 +33,20 @@
     }
 }
 
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
 .banner {
     height:100vh;
-    width:100vw;
+    width:100%;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     min-height: 1230px;
   }
 
@@ -64,9 +73,10 @@
     text-align: center;
     top: 350px;
     left: 50%;
+    z-index: 1000;
     transform: translate(-50%, -50%);
     color: black;
-    overflow: hidden;
+    overflow: visible;
     position: absolute;
     display: inline-block;
 }
@@ -88,8 +98,9 @@
     max-height: 100%;
     max-width: 100%;
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
     box-shadow: 2px 2px 4px black;
     border-top-right-radius: 4px;
@@ -109,59 +120,37 @@
 
 .gallery {
     top: 430px;
-    height: 65%;
+    height: 67%;
     width: 100%;
     left: 0;
     position: absolute;
     display: inline-flex;
-    overflow-x: scroll;
+    overflow-x: hidden;
     overflow-y: hidden;
     white-space: nowrap;
     background: rgba(0, 0, 0, 0.1);
     transition: all 1s ease-in;
 }
 
-.gallery-overlay {
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: space-between;
+.gallery-row {
+    height: 512px;
+    animation-name: scroll;
+    animation-duration: 22s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }
 
-.gallery-buttons {
-    display: inline-flex;
-    flex-direction: column;
+.gallery-row:hover {
+    animation-play-state: paused;
 }
 
-#slideLeft,
-#slideRight {
-    position: absolute;
-    align-items: center;
-    align-content: center;
-    vertical-align: middle;
-    justify-content: center;
-    display: flex;
-    z-index: 1000;
-    width: 50px;
-    height: 50px;
-    color: white;
-    background: rgba(0, 0, 0, 0.5);
-    top: 50%;
-    transform: translateY(130%);
+#img1-caption, #img2-caption, #img2-caption, #img3-caption, #img4-caption, #img5-caption, #img6-caption, #img7-caption, #img8-caption {
+    display: none;
 }
 
-#slideLeft {
-    left: 10px;
-}
-
-#slideRight {
-    right: 10px;
-}
-
-#slideLeft:hover, #slideRight:hover {
-    opacity: 0.7;
-}
 
 .img {
+    top: 0;
     height: 512px;
     width: 512px;
     position: relative;
