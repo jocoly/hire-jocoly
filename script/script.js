@@ -31,7 +31,7 @@ const config = {
             "Modelscope Text-to-Video",
             "Animov 512x",
             "Zeroscope v2 576w",
-            "Random",
+            "Realistic Vision 2.0",
         ],
 
         PIPELINES_ARRAY: [
@@ -39,7 +39,7 @@ const config = {
             "TextToVideo",
             "animov",
             "t2vxl",
-            "Random"
+            "RealisticVision",
         ]
 
 }
@@ -50,14 +50,15 @@ window.onbeforeunload = function () {
 }
 
 window.onload = function() {
-    smallDeviceActions()
-}
-
-function smallDeviceActions() {
     let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
     if (vw < 1000) {
+        if (vw < 450) {
+            document.getElementById("subtitle").style.display="none";
+        }
         navBar.classList.add('navbarWhite');
         randomSubmit.style.display="none";
+    } else {
+        slideInRandomButton();
     }
 }
 
@@ -263,22 +264,51 @@ img16.onmouseleave = function () {
 
 // image generation section (slides the rest of the page down when it loads)
 const promptSubmit = document.getElementById('promptSubmit');
-let loadingIcon = document.getElementById('loadingIcon');
+let submitButtonText = document.getElementById('buttonText');
+const submitSpinner = document.getElementById('submitSpinner');
+const loadingIcon = document.getElementById('loadingIcon');
 const generatedImageContainer = document.getElementById('generatedImageContainer');
 let model = config.DEFAULT_MODEL;
 
 promptSubmit.onclick = async function () {
     let prompt = document.getElementById('promptInput').value;
-    await generateImage(prompt, model);
+    await buttonsLoadingActions(prompt);
 }
 
 randomSubmit.onclick = async function () {
     let prompt = config.RANDOM_PROMPT_ARRAY[Math.floor(Math.random()*config.RANDOM_PROMPT_ARRAY.length)];
-    await generateImage(prompt, model);
+    await typePromptAnimation(document.getElementById('promptInput'), prompt);
+    await buttonsLoadingActions(prompt);
+}
+
+async function buttonsLoadingActions(prompt) {
+    submitButtonText.textContent = 'Generating...';
+    submitButtonText.style.marginLeft = '20px';
+    submitSpinner.style.display = 'inline-block';
+    promptSubmit.disabled = true;
+    randomSubmit.disabled = true;
+    try {
+        await generateImage(prompt, model);
+    } catch (error) {
+        console.error(error);
+    } finally {
+        submitButtonText.style.marginLeft = '0';
+        submitButtonText.textContent = "Submit";
+        submitSpinner.style.display = "none";
+        promptSubmit.disabled = false;
+        randomSubmit.disabled = false;
+    }
+}
+
+async function typePromptAnimation(inputElement, prompt) {
+    inputElement.value = "";
+    for (let i=0; i < prompt.length; i++) {
+        inputElement.placeholder = prompt.substring(0, i+1);
+        await sleep(sleepTime);
+    }
 }
 
 const promptSelect = document.getElementById('dropdownMenu1');
-let randomModel = "";
 
 // model vs pipeline is just changing the formatting from what the web form displays (model) to what the code uses (pipeline)
 function selectModel(modelButton) {
@@ -296,9 +326,12 @@ function selectModel(modelButton) {
         case config.MODELS_ARRAY[3]:
             model = config.PIPELINES_ARRAY[3];
             break;
+        case config.MODELS_ARRAY[4]:
+            model = config.PIPELINES_ARRAY[4];
+            break;
         case 'Random':
             model = config.PIPELINES_ARRAY[Math.floor(Math.random()*config.PIPELINES_ARRAY.length)];
-            console.log(model)
+            promptSelect.innerHTML = model;
             break;
         default:
             model = config.PIPELINES_ARRAY[0];
@@ -311,6 +344,14 @@ function adjustBannerHeight() {
 }
 function repositionGallery() {
     gallery.style.top = "1012px";
+}
+
+function slideInRandomButton(){
+    setTimeout(function(){
+        randomSubmit.style.display="block";
+        randomSubmit.style.animationName="slidein";
+        randomSubmit.style.animationDuration="3s";
+    }, 3000); // 3 seconds after page load
 }
 
 // calling the 'callBackendPipeline' function to send the prompt to the server and return an image url

@@ -66,6 +66,16 @@ if (os.getenv("XL_VIDEO")) == 'true':
     t2v_xl_pipe = t2v_xl_pipe.to(device)
     t2v_xl_pipe.enable_model_cpu_offload()
 
+if (os.getenv("REALISTIC_VISION")) == 'true':
+    print("Loading Realistic Vision 2.0 model")
+    realistic_vision_pipe = DiffusionPipeline.from_pretrained('SG161222/Realistic_Vision_V2.0',
+                                                                  torch_dtype=torch.float16,
+                                                                  variant='fp16')
+    realistic_vision_pipe.scheduler = DPMSolverMultistepScheduler.from_config(realistic_vision_pipe.scheduler.config)
+    realistic_vision_pipe = realistic_vision_pipe.to(device)
+    realistic_vision_pipe.enable_model_cpu_offload()
+    realistic_vision_pipe.enable_vae_slicing()
+
 # imgur upload config
 CLIENT_ID = os.getenv("IMGUR_CLIENT_ID")
 imgur_url = "https://api.imgur.com/3/image"
@@ -143,6 +153,21 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
             ).frames
             gif_file_path = save_frames_and_upload(video_frames)
             process_output.append(gif_file_path)
+        case "RealisticVision":
+            images_array = realistic_vision_pipe(
+                prompt=prompt + "(high detailed skin:1.2), 8k uhd, dslr, soft lighting, high quality, film grain, " "Fujifilm XT3",
+                negative_prompt=os.getenv("NEGATIVE_PROMPT"),
+                num_images_per_prompt=num,
+                num_inference_steps=int(os.getenv("RV_INFERENCE_STEPS")),
+                guidance_scale=float(os.getenv("RV_GUIDANCE_SCALE")),
+                width=int(os.getenv("RV_IMAGE_WIDTH")),
+                height=int(os.getenv("RV_IMAGE_HEIGHT")),
+                generator=generator,
+            ).images
+            Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
+            for index in range(num):
+                image_path = save_and_upload(images_array[index])
+                process_output.append(image_path)
     gen_time = time.time() - start_time
     print(f"Created generation in {gen_time} seconds")
     return process_output

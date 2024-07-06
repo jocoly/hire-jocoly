@@ -47,8 +47,8 @@
     <div class="gradient"></div>
 
     <div class="title">
-        <h2 class="hero_title">Hi, I'm Colin</h2>
-        <p class="hero_desc">I'm a developer in Louisville, KY</p>
+        <h2 class="hero_title" id="title">Hi, I'm Colin</h2>
+        <p class="hero_desc" id="subtitle">I'm a developer in Louisville, KY</p>
     </div>
 
     <div class="prompt_form">
@@ -57,23 +57,29 @@
                 <form id="generate" onsubmit="return false">
                     <input type="search" class="form-control" id="promptInput" aria-describedby="promptHelp" placeholder="Type a prompt to generate an image" autofocus="autofocus">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <div class="slidein">
+                            <button class="btn btn-outline-primary" type="button" id="randomSubmit">Try a random prompt
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shuffle" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.6 9.6 0 0 0 7.556 8a9.6 9.6 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.6 10.6 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.6 9.6 0 0 0 6.444 8a9.6 9.6 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5"/>
+                                    <path d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192m0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192"/>
+                                </svg>
+                            </button>
+                        </div>
                         <div class="dropdown">
-                            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu1" data-bs-toggle="dropdown">Model</button>
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenu1" data-bs-toggle="dropdown">Model</button>
                             <div class="dropdown-menu">
                                 <li><a class="dropdown-item" onclick="selectModel(this)" href="#">Stable Diffusion 2 (base)</a></li>
+                                <li><a class="dropdown-item" onclick="selectModel(this)"  href="#">Realistic Vision 2.0</a></li>
                                 <li><a class="dropdown-item" onclick="selectModel(this)"  href="#">Modelscope Text-to-Video</a></li>
                                 <li><a class="dropdown-item" onclick="selectModel(this)"  href="#">Animov 512x</a></li>
                                 <li><a class="dropdown-item" onclick="selectModel(this)"  href="#">Zeroscope v2 576w</a></li>
-<!--                                <li><a class="dropdown-item" onclick="selectModel(this)"  href="#">Random</a></li>-->
+                                <li><a class="dropdown-item" onclick="selectModel(this)"  href="#">Random</a></li>
                             </div>
                         </div>
-                        <button class="btn btn-dark" type="button" id="randomSubmit">Try a random prompt
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shuffle" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.6 9.6 0 0 0 7.556 8a9.6 9.6 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.6 10.6 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.6 9.6 0 0 0 6.444 8a9.6 9.6 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5"/>
-                                <path d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192m0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192"/>
-                            </svg>
+                        <button class="btn btn-primary" type="submit" id="promptSubmit" value="generate" >
+                            <span id="submitSpinner" class="submitSpinner" role="status" aria-hidden="true"></span>
+                            <span id="buttonText">Submit</span>
                         </button>
-                        <button class="btn btn-primary" type="submit" id="promptSubmit" onclick="cycleRandomModel()" value="generate">Submit</button>
                     </div>
                 </form>
             </div>
