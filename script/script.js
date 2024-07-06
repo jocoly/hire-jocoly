@@ -310,6 +310,8 @@ function invalidPrompt() {
 
 randomSubmit.onclick = async function () {
     let prompt = config.RANDOM_PROMPT_ARRAY[Math.floor(Math.random()*config.RANDOM_PROMPT_ARRAY.length)];
+    promptSubmit.disabled = true;
+    randomSubmit.disabled = true;
     await typePromptAnimation(document.getElementById('promptInput'), prompt);
     await buttonsLoadingActions(prompt);
 }
