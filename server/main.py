@@ -76,6 +76,47 @@ if (os.getenv("REALISTIC_VISION")) == 'true':
     realistic_vision_pipe.enable_model_cpu_offload()
     realistic_vision_pipe.enable_vae_slicing()
 
+if (os.getenv("OPENJOURNEY")) == 'true':
+    print("Loading openjourney model")
+    openjourney_pipe = DiffusionPipeline.from_pretrained('prompthero/openjourney',
+                                                         torch_dtype=torch.float16,
+                                                         variant='fp16')
+    openjourney_pipe.scheduler = DPMSolverMultistepScheduler.from_config(openjourney_pipe.scheduler.config)
+    openjourney_pipe = openjourney_pipe.to(device)
+    openjourney_pipe.enable_model_cpu_offload()
+    openjourney_pipe.enable_vae_slicing()
+
+if (os.getenv("DREAM_SHAPER")) == 'true':
+    print("Loading Dream Shaper model")
+    dream_shaper_pipe = DiffusionPipeline.from_pretrained('Lykon/DreamShaper',
+                                                          torch_dtype=torch.float16,
+                                                          variant='fp16', low_cpu_mem_usage=False)
+    dream_shaper_pipe.scheduler = DPMSolverMultistepScheduler.from_config(dream_shaper_pipe.scheduler.config)
+    dream_shaper_pipe = dream_shaper_pipe.to(device)
+    dream_shaper_pipe.enable_model_cpu_offload()
+    dream_shaper_pipe.enable_vae_slicing()
+
+if (os.getenv("DREAMLIKE_PHOTOREAL")) == 'true':
+    print("Loading Dreamlike Photoreal model")
+    dreamlike_photoreal_pipe = DiffusionPipeline.from_pretrained('dreamlike-art/dreamlike-photoreal-2.0',
+                                                                 torch_dtype=torch.float16,
+                                                                 variant='fp16')
+    dreamlike_photoreal_pipe.scheduler = DPMSolverMultistepScheduler.from_config(
+        dreamlike_photoreal_pipe.scheduler.config)
+    dreamlike_photoreal_pipe = dreamlike_photoreal_pipe.to(device)
+    dreamlike_photoreal_pipe.enable_model_cpu_offload()
+    dreamlike_photoreal_pipe.enable_vae_slicing()
+
+if (os.getenv("VOX2")) == 'true':
+    print("Loading vox2 model")
+    vox2_pipe = DiffusionPipeline.from_pretrained('plasmo/vox2',
+                                                  torch_dtype=torch.float16,
+                                                  variant='fp16')
+    vox2_pipe.scheduler = DPMSolverMultistepScheduler.from_config(vox2_pipe.scheduler.config)
+    vox2_pipe = vox2_pipe.to(device)
+    vox2_pipe.enable_model_cpu_offload()
+    vox2_pipe.enable_vae_slicing()
+
 # imgur upload config
 CLIENT_ID = os.getenv("IMGUR_CLIENT_ID")
 imgur_url = "https://api.imgur.com/3/image"
@@ -168,6 +209,67 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
             for index in range(num):
                 image_path = save_and_upload(images_array[index])
                 process_output.append(image_path)
+        case "Openjourney":
+            images_array = openjourney_pipe(
+                prompt="mdjrny-v4 style " + prompt,
+                negative_prompt=os.getenv("NEGATIVE_PROMPT"),
+                num_images_per_prompt=num,
+                num_inference_steps=int(os.getenv("OJ_INFERENCE_STEPS")),
+                guidance_scale=float(os.getenv("OJ_GUIDANCE_SCALE")),
+                width=int(os.getenv("OJ_IMAGE_WIDTH")),
+                height=int(os.getenv("OJ_IMAGE_HEIGHT")),
+                generator=generator,
+            ).images
+            Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
+            for index in range(num):
+                image_path = save_and_upload(images_array[index])
+                process_output.append(image_path)
+        case "DreamShaper":
+            images_array = dream_shaper_pipe(
+                prompt=prompt,
+                negative_prompt=os.getenv("NEGATIVE_PROMPT"),
+                num_images_per_prompt=num,
+                num_inference_steps=int(os.getenv("DS_INFERENCE_STEPS")),
+                guidance_scale=float(os.getenv("DS_GUIDANCE_SCALE")),
+                width=int(os.getenv("DS_IMAGE_WIDTH")),
+                height=int(os.getenv("DS_IMAGE_HEIGHT")),
+                generator=generator,
+            ).images
+            Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
+            for index in range(num):
+                image_path = save_and_upload(images_array[index])
+                process_output.append(image_path)
+        case "DreamlikePhotoreal":
+            images_array = dreamlike_photoreal_pipe(
+                prompt=prompt,
+                negative_prompt=os.getenv("NEGATIVE_PROMPT"),
+                num_images_per_prompt=num,
+                num_inference_steps=int(os.getenv("PR_INFERENCE_STEPS")),
+                guidance_scale=float(os.getenv("PR_GUIDANCE_SCALE")),
+                width=int(os.getenv("PR_IMAGE_WIDTH")),
+                height=int(os.getenv("PR_IMAGE_HEIGHT")),
+                generator=generator,
+            ).images
+            Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
+            for index in range(num):
+                image_path = save_and_upload(images_array[index])
+                process_output.append(image_path)
+        case "vox2":
+            images_array = vox2_pipe(
+                prompt="voxel-ish, intricate detail: " + prompt,
+                negative_prompt=os.getenv("NEGATIVE_PROMPT"),
+                num_images_per_prompt=num,
+                num_inference_steps=int(os.getenv("VOX2_INFERENCE_STEPS")),
+                guidance_scale=float(os.getenv("VOX2_GUIDANCE_SCALE")),
+                width=int(os.getenv("VOX2_IMAGE_WIDTH")),
+                height=int(os.getenv("VOX2_IMAGE_HEIGHT")),
+                generator=generator,
+            ).images
+            Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
+            for index in range(num):
+                image_path = save_and_upload(images_array[index])
+                process_output.append(image_path)
+
     gen_time = time.time() - start_time
     print(f"Created generation in {gen_time} seconds")
     return process_output

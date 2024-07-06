@@ -32,6 +32,10 @@ const config = {
             "Animov 512x",
             "Zeroscope v2 576w",
             "Realistic Vision 2.0",
+            "Openjourney",
+            "DreamShaper",
+            "Dreamlike-Photoreal 2.0",
+            "Vox 2",
         ],
 
         PIPELINES_ARRAY: [
@@ -40,6 +44,10 @@ const config = {
             "animov",
             "t2vxl",
             "RealisticVision",
+            "Openjourney",
+            "DreamShaper",
+            "DreamlikePhotoreal",
+            "Vox2",
         ]
 
 }
@@ -271,8 +279,31 @@ const generatedImageContainer = document.getElementById('generatedImageContainer
 let model = config.DEFAULT_MODEL;
 
 promptSubmit.onclick = async function () {
+    resetInvalidPrompt();
     let prompt = document.getElementById('promptInput').value;
-    await buttonsLoadingActions(prompt);
+    if (prompt === "") {
+        prompt = document.getElementById('promptInput').placeholder;
+        if (prompt === "Type a prompt to generate an image") {
+            invalidPrompt();
+        } else {
+            await buttonsLoadingActions(prompt);
+        }
+    } else {
+        await buttonsLoadingActions(prompt);
+    }
+}
+
+function invalidPrompt() {
+    promptSubmit.style.animation = "kf_shake 0.4s 1 linear";
+    promptSubmit.addEventListener('animationend', function() {
+        promptSubmit.style.animation = null;
+    }, { once: true });
+}
+
+function resetInvalidPrompt() {
+    promptSubmit.style.animation="none";
+    promptSubmit.style.boxShadow="none";
+    promptSubmit.style.backgroundColor="none";
 }
 
 randomSubmit.onclick = async function () {
