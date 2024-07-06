@@ -50,6 +50,22 @@ if os.getenv("TEXT_TO_VIDEO") == 'true':
     text_to_video_pipe.enable_model_cpu_offload()
     text_to_video_pipe.enable_vae_slicing()
 
+if (os.getenv("ANIMOV_512X")) == 'true':
+    print("Loading animov-512x model")
+    animov_pipe = DiffusionPipeline.from_pretrained('strangeman3107/animov-512x',
+                                                    torch_dtype=torch.float16,
+                                                    variant='fp16')
+    animov_pipe.scheduler = DPMSolverMultistepScheduler.from_config(animov_pipe.scheduler.config)
+    animov_pipe = animov_pipe.to(device)
+    animov_pipe.enable_model_cpu_offload()
+    animov_pipe.enable_vae_slicing()
+
+if (os.getenv("XL_VIDEO")) == 'true':
+    print("Loading Modelscope Text-to-Video XL model")
+    t2v_xl_pipe = DiffusionPipeline.from_pretrained('cerspense/zeroscope_v2_576w',torch_dtype=torch.float16,low_cpu_mem_usage=False)
+    t2v_xl_pipe = t2v_xl_pipe.to(device)
+    t2v_xl_pipe.enable_model_cpu_offload()
+
 # imgur upload config
 CLIENT_ID = os.getenv("IMGUR_CLIENT_ID")
 imgur_url = "https://api.imgur.com/3/image"
@@ -97,6 +113,32 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
                 guidance_scale=float(os.getenv("VIDEO_GUIDANCE_SCALE")),
                 width=256,
                 height=256,
+                generator=generator,
+            ).frames
+            gif_file_path = save_frames_and_upload(video_frames)
+            process_output.append(gif_file_path)
+        case "animov":
+            video_frames = animov_pipe(
+                prompt=prompt + " - anime",
+                negative_prompt=os.getenv("NEGATIVE_PROMPT"),
+                num_frames=int(os.getenv("VIDEO_NUM_FRAMES")),
+                num_inference_steps=int(os.getenv("VIDEO_INFERENCE_STEPS")),
+                guidance_scale=float(os.getenv("VIDEO_GUIDANCE_SCALE")),
+                width=256,
+                height=256,
+                generator=generator,
+            ).frames
+            gif_file_path = save_frames_and_upload(video_frames)
+            process_output.append(gif_file_path)
+        case "t2vxl":
+            video_frames = t2v_xl_pipe(
+                prompt=prompt,
+                negative_prompt=os.getenv("NEGATIVE_PROMPT"),
+                num_frames=int(os.getenv("VIDEO_NUM_FRAMES")),
+                num_inference_steps=int(os.getenv("VIDEO_INFERENCE_STEPS")),
+                guidance_scale=float(os.getenv("VIDEO_GUIDANCE_SCALE")),
+                width=576,
+                height=320,
                 generator=generator,
             ).frames
             gif_file_path = save_frames_and_upload(video_frames)

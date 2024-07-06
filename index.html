@@ -54,19 +54,26 @@
     <div class="prompt_form">
         <div class="row">
             <div class="form-group">
-                <form>
-                    <input type="submit" style="display: none" />
+                <form id="generate">
                     <input type="search" class="form-control" id="promptInput" aria-describedby="promptHelp" placeholder="Type a prompt to generate an image" autofocus="autofocus">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button class="btn btn-dark me-md-2" type="button" id="promptSubmit">Submit</button>
-                        <button class="btn btn-dark" type="button" id="randomSubmit">Try a random prompt</button>
                         <div class="dropdown">
                             <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu1" data-bs-toggle="dropdown">Model</button>
                             <div class="dropdown-menu">
                                 <li><a class="dropdown-item" onclick="selectModel(this)" href="#">Stable Diffusion 2 (base)</a></li>
                                 <li><a class="dropdown-item" onclick="selectModel(this)"  href="#">Modelscope Text-to-Video</a></li>
+                                <li><a class="dropdown-item" onclick="selectModel(this)"  href="#">Animov 512x</a></li>
+                                <li><a class="dropdown-item" onclick="selectModel(this)"  href="#">Zeroscope v2 576w</a></li>
+<!--                                <li><a class="dropdown-item" onclick="selectModel(this)"  href="#">Random</a></li>-->
                             </div>
                         </div>
+                        <button class="btn btn-dark" type="button" id="randomSubmit">Try a random prompt
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shuffle" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.6 9.6 0 0 0 7.556 8a9.6 9.6 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.6 10.6 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.6 9.6 0 0 0 6.444 8a9.6 9.6 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5"/>
+                                <path d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192m0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-primary" type="submit" id="promptSubmit" onclick="cycleRandomModel()" value="generate">Submit</button>
                     </div>
                 </form>
             </div>
@@ -74,7 +81,7 @@
     </div>
 
     <div class="generatedImageContainer" id="generatedImageContainer">
-        <div class="spinner-border" id="loadingIcon" role="status">
+        <div class="spinner-border text-primary" id="loadingIcon" role="status">
             <span class ="sr-only">Loading...</span>
         </div>
         <img id="generatedImage" src="" alt="Generated at jocoly.com">
@@ -108,26 +115,74 @@
             </div>
             <div class="img" id="img5">
                 <figure class="figure">
-                    <img class="figure-img" src="assets/sample/sample1.png" alt="Generated at jocoly.com">
-                    <figcaption id="img5-caption"><p>In the depths of the old forest, the moss-covered trees stand tall, their trunks gently curving inwards like a protective embrace. What secrets do these trees keep?</p></figcaption>
+                    <img class="figure-img" src="assets/sample/sample5.png" alt="Generated at jocoly.com">
+                    <figcaption id="img5-caption"><p>The sky is painted a deep navy, with the orange-pink rays of the moon peeking over the horizon. The silhouettes of distant mountains and trees are just visible through the thick mist that blankets the landscape. The ocean is still and tranquil, reflecting the moonlight like a shimmering mirror. The air is fresh and crisp, and the atmosphere is peaceful and serene.</p></figcaption>
                 </figure>
             </div>
             <div class="img" id="img6">
                 <figure class="figure">
-                    <img class="figure-img" src="assets/sample/sample2.png" alt="Generated at jocoly.com">
-                    <figcaption id="img6-caption"><p>The lake is blanketed in a thick layer of ice, a thin fog rising off the surface. The stars twinkle in the night sky, reflecting in the lake and creating a magical scene. The moon is a bright white, casting its light across the lake, highlighting the jagged edges of the ice. The stillness of the night is only broken by the occasional sound of a fish jumping from beneath the frozen lake.</p></figcaption>
+                    <img class="figure-img" src="assets/sample/sample6.png" alt="Generated at jocoly.com">
+                    <figcaption id="img6-caption"><p>On a desolate beach, a fierce storm brews in the horizon. Dark clouds are gathering and thunder can be heard in the distance. The sand is a dull gray color and the sky is a deep shade of navy blue. The waves are crashing against the shore and the wind is blowing the sand around in circles. The only thing breaking the silence is the sound of the storm and the howling of the wind. The beach is empty, without a single soul in sight.</p></figcaption>
                 </figure>
             </div>
             <div class="img" id="img7">
                 <figure class="figure">
-                    <img class="figure-img" src="assets/sample/sample3.png" alt="Generated at jocoly.com">
-                    <figcaption id="img7-caption"><p>The abandoned lamp sits in a desolate field, its metal base barely visible in the moonlight. The night is shrouded in a thick fog that swirls around the lamp, giving it a mysterious and eerie ambiance. The lamp is the only source of light in the field, and its yellow glow casts an eerie shadow on the ground. The fog creates an illusion of a dreamlike landscape, with the lamp the only anchor in the darkness.</p></figcaption>
+                    <img class="figure-img" src="assets/sample/sample7.png" alt="Generated at jocoly.com">
+                    <figcaption id="img7-caption"><p>A silvery moon rises in the night sky, casting its eerie light over the rolling desert sand dunes. The horizon is a deep navy blue, with a few stars twinkling in the background. The sand dunes have a soft, golden glow, with subtle shadows creating a sense of texture. The moonlight casts a cool, calming light over the entire scene.</p></figcaption>
                 </figure>
             </div>
             <div class="img" id="img8">
                 <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample8.png" alt="Generated at jocoly.com">
+                    <figcaption id="img8-caption"><p>A majestic lighthouse stands on a misty shoreline, illuminated by the soft orange and pink hues of the rising sun. A vibrant tapestry of colors fills the air, as a field of fresh blooming flowers proudly display their beauty.</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img9">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample1.png" alt="Generated at jocoly.com">
+                    <figcaption id="img9-caption"><p>In the depths of the old forest, the moss-covered trees stand tall, their trunks gently curving inwards like a protective embrace. What secrets do these trees keep?</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img10">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample2.png" alt="Generated at jocoly.com">
+                    <figcaption id="img10-caption"><p>The lake is blanketed in a thick layer of ice, a thin fog rising off the surface. The stars twinkle in the night sky, reflecting in the lake and creating a magical scene. The moon is a bright white, casting its light across the lake, highlighting the jagged edges of the ice. The stillness of the night is only broken by the occasional sound of a fish jumping from beneath the frozen lake.</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img11">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample3.png" alt="Generated at jocoly.com">
+                    <figcaption id="img11-caption"><p>The abandoned lamp sits in a desolate field, its metal base barely visible in the moonlight. The night is shrouded in a thick fog that swirls around the lamp, giving it a mysterious and eerie ambiance. The lamp is the only source of light in the field, and its yellow glow casts an eerie shadow on the ground. The fog creates an illusion of a dreamlike landscape, with the lamp the only anchor in the darkness.</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img12">
+                <figure class="figure">
                     <img class="figure-img" src="assets/sample/sample4.png" alt="Generated at jocoly.com">
-                    <figcaption id="img8-caption"><p>The sky is awash with a beautiful mix of pink, orange, and yellow hues as the sun slowly sets behind the rocky mountain range. The jagged peaks of the mountains are silhouetted against the vibrant sky, their shapes highlighted by the bright light of the setting sun. The area around the mountains is still and quiet, the only sound being the gentle breeze that ripples through the grassy foothills. In the distance, a lone eagle soars through the sky, its wings outstretched as it takes in the amazing sight.</p></figcaption>
+                    <figcaption id="img12-caption"><p>The sky is awash with a beautiful mix of pink, orange, and yellow hues as the sun slowly sets behind the rocky mountain range. The jagged peaks of the mountains are silhouetted against the vibrant sky, their shapes highlighted by the bright light of the setting sun. The area around the mountains is still and quiet, the only sound being the gentle breeze that ripples through the grassy foothills. In the distance, a lone eagle soars through the sky, its wings outstretched as it takes in the amazing sight.</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img13">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample5.png" alt="Generated at jocoly.com">
+                    <figcaption id="img13-caption"><p>The sky is painted a deep navy, with the orange-pink rays of the moon peeking over the horizon. The silhouettes of distant mountains and trees are just visible through the thick mist that blankets the landscape. The ocean is still and tranquil, reflecting the moonlight like a shimmering mirror. The air is fresh and crisp, and the atmosphere is peaceful and serene.</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img14">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample6.png" alt="Generated at jocoly.com">
+                    <figcaption id="img14-caption"><p>On a desolate beach, a fierce storm brews in the horizon. Dark clouds are gathering and thunder can be heard in the distance. The sand is a dull gray color and the sky is a deep shade of navy blue. The waves are crashing against the shore and the wind is blowing the sand around in circles. The only thing breaking the silence is the sound of the storm and the howling of the wind. The beach is empty, without a single soul in sight.</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img15">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample7.png" alt="Generated at jocoly.com">
+                    <figcaption id="img15-caption"><p>A silvery moon rises in the night sky, casting its eerie light over the rolling desert sand dunes. The horizon is a deep navy blue, with a few stars twinkling in the background. The sand dunes have a soft, golden glow, with subtle shadows creating a sense of texture. The moonlight casts a cool, calming light over the entire scene.</p></figcaption>
+                </figure>
+            </div>
+            <div class="img" id="img16">
+                <figure class="figure">
+                    <img class="figure-img" src="assets/sample/sample8.png" alt="Generated at jocoly.com">
+                    <figcaption id="img16-caption"><p>A majestic lighthouse stands on a misty shoreline, illuminated by the soft orange and pink hues of the rising sun. A vibrant tapestry of colors fills the air, as a field of fresh blooming flowers proudly display their beauty.</p></figcaption>
                 </figure>
             </div>
         </div>

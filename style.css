@@ -130,12 +130,13 @@
     white-space: nowrap;
     background: rgba(0, 0, 0, 0.1);
     transition: all 1s ease-in;
+
 }
 
 .gallery-row {
     height: 512px;
     animation-name: scroll;
-    animation-duration: 22s;
+    animation-duration: 40s;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
 }
@@ -144,7 +145,8 @@
     animation-play-state: paused;
 }
 
-#img1-caption, #img2-caption, #img2-caption, #img3-caption, #img4-caption, #img5-caption, #img6-caption, #img7-caption, #img8-caption {
+#img1-caption, #img2-caption, #img2-caption, #img3-caption, #img4-caption, #img5-caption, #img6-caption, #img7-caption, #img8-caption,
+#img9-caption, #img10-caption, #img11-caption, #img12-caption, #img13-caption, #img14-caption, #img15-caption, #img16-caption {
     display: none;
 }
 
@@ -180,6 +182,7 @@
     --width: 90vw;
     --speed: 50s;
     --easing: cubic-bezier(0.8,0.2,0.2,0.8);
+    left: 25%;
 
     width: var(--height);
     height: var(--width);

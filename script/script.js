@@ -8,37 +8,57 @@
 * */
 
 const config = {
-    BACKEND_ADDRESS:"https://major-vocal-vervet.ngrok-free.app",
-    PORT:"5000",
+        BACKEND_ADDRESS: "https://major-vocal-vervet.ngrok-free.app",
+        PORT: "5000",
 
-    STABLE_DIFFUSION:"true",
+        RANDOM_PROMPT_ARRAY: [
+            "A baby elephant in a flower garden, wearing a crown of daisies",
+            "A whimsical owl perched on a crescent moon, stars twinkling around",
+            "A playful puppy splashing in a puddle, wearing a raincoat and boots",
+            "A chubby dragon blowing bubbles, surrounded by colorful flowers",
+            "A tiny mouse riding a leaf boat down a stream, holding a little sail",
+            "A curious fox peeking out from a magical forest, fireflies illuminating",
+            "A penguin sliding down a snowy hill, wearing a cozy scarf",
+            "A squirrel holding an umbrella, standing under a gentle rain shower",
+            "A rabbit painting colorful eggs, surrounded by spring blooms",
+            "A kitten napping in a hammock made of spider webs, in a fairy-tale garden",
+        ],
 
-    SD_IMAGE_INFERENCE_STEPS:"50",
-    SD_IMAGE_GUIDANCE_SCALE:"7.5",
-    SD_IMAGE_WIDTH:"512",
-    SD_IMAGE_HEIGHT:"512",
+        DEFAULT_MODEL: "StableDiffusion", // used in match function for generateImage function
 
-    NEGATIVE_PROMPT:"blurry, watermark, gross, disgusting, text, close up, cropped, out of frame, worst quality, low quality, jpeg artifacts, ugly, duplicate, morbid, mutilated, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, mutation, deformed, blurry, dehydrated, bad anatomy, bad proportions, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, fused fingers, too many fingers, long neck",
+        MODELS_ARRAY: [
+            "Stable Diffusion 2 (base)",
+            "Modelscope Text-to-Video",
+            "Animov 512x",
+            "Zeroscope v2 576w",
+            "Random",
+        ],
 
-    RANDOM_PROMPT_ARRAY: [
-        "A baby elephant in a flower garden, wearing a crown of daisies",
-        "A whimsical owl perched on a crescent moon, stars twinkling around",
-        "A playful puppy splashing in a puddle, wearing a raincoat and boots",
-        "A chubby dragon blowing bubbles, surrounded by colorful flowers",
-        "A tiny mouse riding a leaf boat down a stream, holding a little sail",
-        "A curious fox peeking out from a magical forest, fireflies illuminating",
-        "A penguin sliding down a snowy hill, wearing a cozy scarf",
-        "A squirrel holding an umbrella, standing under a gentle rain shower",
-        "A rabbit painting colorful eggs, surrounded by spring blooms",
-        "A kitten napping in a hammock made of spider webs, in a fairy-tale garden",
-    ],
+        PIPELINES_ARRAY: [
+            "StableDiffusion",
+            "TextToVideo",
+            "animov",
+            "t2vxl",
+            "Random"
+        ]
 
-    DEFAULT_MODEL: "StableDiffusion", // used in match function for generateImage function
 }
 
 // scroll to the top of the page on refresh
 window.onbeforeunload = function () {
     window.scrollTo(0,0);
+}
+
+window.onload = function() {
+    smallDeviceActions()
+}
+
+function smallDeviceActions() {
+    let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+    if (vw < 1000) {
+        navBar.classList.add('navbarWhite');
+        randomSubmit.style.display="none";
+    }
 }
 
 /*
@@ -48,11 +68,6 @@ window.onbeforeunload = function () {
 *
 *
 * */
-
-// check viewport width; for mobile or <1000 px width; don't load the header until the page is scrolled
-window.onload = function() {
-    smallDeviceActions()
-}
 
 // navbar is initially transparent on desktop displays
 // initially completely hidden on mobile displays
@@ -68,14 +83,6 @@ window.onscroll = async function () {
         navBar.classList.add('navbarWhite');
     } else {
         navBar.classList.remove('navbarLight');
-    }
-}
-
-function smallDeviceActions() {
-    let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-    if (vw < 1000) {
-        navBar.classList.add('navbarWhite');
-        randomSubmit.style.display="none";
     }
 }
 
@@ -111,6 +118,9 @@ async function writeLoop()  {
 *
 * */
 
+
+// doubled the gallery to create a constant scroll effect. there's probably a better way to do this
+
 const banner = document.getElementById("home");
 const gallery = document.getElementById("gallery");
 const img1 = document.getElementById("img1");
@@ -129,6 +139,22 @@ const img7 = document.getElementById("img7");
 const img7Caption = document.getElementById("img7-caption");
 const img8 = document.getElementById("img8");
 const img8Caption = document.getElementById("img8-caption");
+const img9 = document.getElementById("img9");
+const img9Caption = document.getElementById("img9-caption");
+const img10 = document.getElementById("img10");
+const img10Caption = document.getElementById("img10-caption");
+const img11 = document.getElementById("img11");
+const img11Caption = document.getElementById("img11-caption");
+const img12 = document.getElementById("img12");
+const img12Caption = document.getElementById("img12-caption");
+const img13 = document.getElementById("img13");
+const img13Caption = document.getElementById("img13-caption");
+const img14 = document.getElementById("img14");
+const img14Caption = document.getElementById("img14-caption");
+const img15 = document.getElementById("img15");
+const img15Caption = document.getElementById("img15-caption");
+const img16 = document.getElementById("img16");
+const img16Caption = document.getElementById("img16-caption");
 
 img1.onmouseover = function () {
     img1Caption.style.display="block"
@@ -173,13 +199,59 @@ img7.onmouseleave = function () {
     img7Caption.style.display="none"
 }
 img8.onmouseover = function () {
-    img1Caption.style.display="block"
+    img8Caption.style.display="block"
 }
 img8.onmouseleave = function () {
-    img1Caption.style.display="none"
+    img8Caption.style.display="none"
 }
-
-
+img9.onmouseover = function () {
+    img9Caption.style.display="block"
+}
+img9.onmouseleave = function () {
+    img9Caption.style.display="none"
+}
+img10.onmouseover = function () {
+    img10Caption.style.display="block"
+}
+img10.onmouseleave = function () {
+    img10Caption.style.display="none"
+}
+img11.onmouseover = function () {
+    img11Caption.style.display="block"
+}
+img11.onmouseleave = function () {
+    img11Caption.style.display="none"
+}
+img12.onmouseover = function () {
+    img12Caption.style.display="block"
+}
+img12.onmouseleave = function () {
+    img12Caption.style.display="none"
+}
+img13.onmouseover = function () {
+    img13Caption.style.display="block"
+}
+img13.onmouseleave = function () {
+    img13Caption.style.display="none"
+}
+img14.onmouseover = function () {
+    img14Caption.style.display="block"
+}
+img14.onmouseleave = function () {
+    img14Caption.style.display="none"
+}
+img15.onmouseover = function () {
+    img15Caption.style.display="block"
+}
+img15.onmouseleave = function () {
+    img15Caption.style.display="none"
+}
+img16.onmouseover = function () {
+    img16Caption.style.display="block"
+}
+img16.onmouseleave = function () {
+    img16Caption.style.display="none"
+}
 
 /*
 *
@@ -206,19 +278,35 @@ randomSubmit.onclick = async function () {
 }
 
 const promptSelect = document.getElementById('dropdownMenu1');
+let randomModel = "";
 
+// model vs pipeline is just changing the formatting from what the web form displays (model) to what the code uses (pipeline)
 function selectModel(item) {
     promptSelect.innerHTML = item.innerHTML;
     switch (item.innerHTML) {
-        case 'Stable Diffusion 2 (base)':
-            model = "StableDiffusion";
+        case config.MODELS_ARRAY[0]:
+            model = config.PIPELINES_ARRAY[0];
             break;
-        case 'Modelscope Text-to-Video':
-            model = "TextToVideo";
+        case config.MODELS_ARRAY[1]:
+            model = config.PIPELINES_ARRAY[1];
+            break;
+        case config.MODELS_ARRAY[2]:
+            model = config.PIPELINES_ARRAY[2];
+            break;
+        case config.MODELS_ARRAY[3]:
+            model = config.PIPELINES_ARRAY[3];
+            break;
+        case 'Random':
+            model = config.PIPELINES_ARRAY[Math.floor(Math.random()*config.PIPELINES_ARRAY.length)];
+            console.log(model)
             break;
         default:
             break;
     }
+}
+
+function cycleRandomModel(){
+
 }
 
 function adjustBannerHeight() {
