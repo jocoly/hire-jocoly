@@ -40,6 +40,7 @@ const config = {
         ],
 
         PIPELINES_ARRAY: [
+            "Flux",
             "StableDiffusion",
             "TextToVideo",
             "animov",
@@ -377,9 +378,9 @@ function selectModel(modelButton) {
         case config.MODELS_ARRAY[8]:
             model = config.PIPELINES_ARRAY[8];
             break;
-            case config.MODELS_ARRAY[9]:
-                model = config.PIPELINES_ARRAY[9];
-                break;
+        case config.MODELS_ARRAY[9]:
+            model = config.PIPELINES_ARRAY[9];
+            break;
         case 'Random':
             model = config.PIPELINES_ARRAY[Math.floor(Math.random()*config.PIPELINES_ARRAY.length)];
             promptSelect.innerHTML = model;
