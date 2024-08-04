@@ -69,7 +69,6 @@ if (os.getenv("XL_VIDEO")) == 'true':
     print("Loading Modelscope Text-to-Video XL model")
     t2v_xl_pipe = DiffusionPipeline.from_pretrained('cerspense/zeroscope_v2_576w',torch_dtype=torch.float16)
     t2v_xl_pipe = t2v_xl_pipe.to(device)
-    t2v_xl_pipe.enable_vae_slicing()
     t2v_xl_pipe.enable_model_cpu_offload()
 
 if (os.getenv("REALISTIC_VISION")) == 'true':
@@ -189,7 +188,7 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
                 width=256,
                 height=256,
                 generator=generator,
-            ).frames
+            ).frames[0]
             gif_file_path = save_frames_and_upload(video_frames)
             process_output.append(gif_file_path)
         case "animov":
@@ -202,7 +201,7 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
                 width=256,
                 height=256,
                 generator=generator,
-            ).frames
+            ).frames[0]
             gif_file_path = save_frames_and_upload(video_frames)
             process_output.append(gif_file_path)
         case "t2vxl":
@@ -215,7 +214,7 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
                 width=576,
                 height=320,
                 generator=generator,
-            ).frames
+            ).frames[0]
             gif_file_path = save_frames_and_upload(video_frames)
             process_output.append(gif_file_path)
         case "RealisticVision":
