@@ -27,6 +27,7 @@ const config = {
         DEFAULT_MODEL: "StableDiffusion", // used in match function for generateImage function
 
         MODELS_ARRAY: [
+            "Flux (New!)",
             "Stable Diffusion 2 (base)",
             "Modelscope Text-to-Video",
             "Animov 512x",
@@ -376,6 +377,9 @@ function selectModel(modelButton) {
         case config.MODELS_ARRAY[8]:
             model = config.PIPELINES_ARRAY[8];
             break;
+            case config.MODELS_ARRAY[9]:
+                model = config.PIPELINES_ARRAY[9];
+                break;
         case 'Random':
             model = config.PIPELINES_ARRAY[Math.floor(Math.random()*config.PIPELINES_ARRAY.length)];
             promptSelect.innerHTML = model;
