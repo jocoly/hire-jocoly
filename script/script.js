@@ -27,8 +27,8 @@ const config = {
         DEFAULT_MODEL: "StableDiffusion", // used in match function for generateImage function
 
         MODELS_ARRAY: [
-            "Flux (New!)",
             "Stable Diffusion 2 (base)",
+            "Flux",
             "Modelscope Text-to-Video",
             "Animov 512x",
             "Zeroscope v2 576w",
@@ -40,8 +40,8 @@ const config = {
         ],
 
         PIPELINES_ARRAY: [
-            "Flux",
             "StableDiffusion",
+            "Flux",
             "TextToVideo",
             "animov",
             "t2vxl",
@@ -289,7 +289,7 @@ promptSubmit.onclick = async function () {
         } else {
             await buttonsLoadingActions(prompt);
         }
-    } else if (prompt.length>75) {
+    } else if (prompt.length>150) {
         invalidPrompt();
     } else {
         await buttonsLoadingActions(prompt);
