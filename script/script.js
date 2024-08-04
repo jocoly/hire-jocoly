@@ -35,7 +35,7 @@ const config = {
             "Realistic Vision 2.0",
             "Openjourney",
             "DreamShaper",
-            "Dreamlike-Photoreal 2.0",
+            "Dreamlike-Photoreal-2.0",
             "Vox 2",
         ],
 

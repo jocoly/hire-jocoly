@@ -17,7 +17,7 @@ import os
 import subprocess
 from diffusers import DiffusionPipeline
 from optimum.quanto import freeze, qfloat8, quantize
-from diffusers import FlowMatchEulerDiscreteScheduler, AutoencoderKL
+from diffusers import FlowMatchEulerDiscreteScheduler, AutoencoderKL, DPMSolverMultistepScheduler
 from diffusers.models.transformers.transformer_flux import FluxTransformer2DModel
 from diffusers.pipelines.flux.pipeline_flux import FluxPipeline
 from transformers import CLIPTextModel, CLIPTokenizer,T5EncoderModel, T5TokenizerFast
@@ -44,14 +44,15 @@ else:
 # load model pipelines
 
 if os.getenv("STABLE_DIFFUSION_2") == 'true':
-    print("Loading Stable Diffusion 2.1 model")
-    sd_pipe = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16)
+    print("Loading Stable Diffusion 2 base model")
+    sd_pipe = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-2-base", torch_dtype=torch.float16)
+    sd_pipe.scheduler = DPMSolverMultistepScheduler.from_config(sd_pipe.scheduler.config)
     sd_pipe = sd_pipe.to(device)
     sd_pipe.enable_model_cpu_offload()
 
 if os.getenv("TEXT_TO_VIDEO") == 'true':
     print("Loading Modelscope Text-to-Video model")
-    text_to_video_pipe = DiffusionPipeline.from_pretrained('damo-vilab/text-to-video-ms-1.7b', torch_dtype=torch.float16)
+    text_to_video_pipe = DiffusionPipeline.from_pretrained('damo-vilab/text-to-video-ms-1.7b', torch_dtype=torch.float16, variant='fp16')
     text_to_video_pipe = text_to_video_pipe.to(device)
     text_to_video_pipe.enable_vae_slicing()
     text_to_video_pipe.enable_model_cpu_offload()
@@ -59,6 +60,7 @@ if os.getenv("TEXT_TO_VIDEO") == 'true':
 if (os.getenv("ANIMOV_512X")) == 'true':
     print("Loading animov-512x model")
     animov_pipe = DiffusionPipeline.from_pretrained('strangeman3107/animov-512x', torch_dtype=torch.float16)
+    animov_pipe.scheduler = DPMSolverMultistepScheduler.from_config(animov_pipe.scheduler.config)
     animov_pipe = animov_pipe.to(device)
     animov_pipe.enable_vae_slicing()
     animov_pipe.enable_model_cpu_offload()
@@ -73,30 +75,39 @@ if (os.getenv("XL_VIDEO")) == 'true':
 if (os.getenv("REALISTIC_VISION")) == 'true':
     print("Loading Realistic Vision 2.0 model")
     realistic_vision_pipe = DiffusionPipeline.from_pretrained('SG161222/Realistic_Vision_V2.0', torch_dtype=torch.float16)
+    realistic_vision_pipe.scheduler = DPMSolverMultistepScheduler.from_config(realistic_vision_pipe.scheduler.config)
     realistic_vision_pipe = realistic_vision_pipe.to(device)
     realistic_vision_pipe.enable_vae_slicing()
+    realistic_vision_pipe.enable_model_cpu_offload()
 
 if (os.getenv("OPENJOURNEY")) == 'true':
     print("Loading openjourney model")
     openjourney_pipe = DiffusionPipeline.from_pretrained('prompthero/openjourney-v4',torch_dtype=torch.float16)
     openjourney_pipe = openjourney_pipe.to(device)
+    openjourney_pipe.enable_vae_slicing()
+    openjourney_pipe.enable_model_cpu_offload()
 
 if (os.getenv("DREAM_SHAPER")) == 'true':
     print("Loading Dream Shaper model")
     dream_shaper_pipe = DiffusionPipeline.from_pretrained('lykon/dreamshaper-8', torch_dtype=torch.float16)
     dream_shaper_pipe = dream_shaper_pipe.to(device)
+    dream_shaper_pipe.enable_vae_slicing()
     dream_shaper_pipe.enable_model_cpu_offload()
 
 if (os.getenv("DREAMLIKE_PHOTOREAL")) == 'true':
     print("Loading Dreamlike Photoreal model")
     dreamlike_photoreal_pipe = DiffusionPipeline.from_pretrained('dreamlike-art/dreamlike-photoreal-2.0', torch_dtype=torch.float16)
+    dreamlike_photoreal_pipe.scheduler = DPMSolverMultistepScheduler.from_config(dreamlike_photoreal_pipe.scheduler.config)
     dreamlike_photoreal_pipe = dreamlike_photoreal_pipe.to(device)
+    dreamlike_photoreal_pipe.enable_vae_slicing()
     dreamlike_photoreal_pipe.enable_model_cpu_offload()
 
 if (os.getenv("VOX2")) == 'true':
     print("Loading vox2 model")
     vox2_pipe = DiffusionPipeline.from_pretrained('plasmo/vox2',torch_dtype=torch.float16)
+    vox2_pipe.scheduler = DPMSolverMultistepScheduler.from_config(vox2_pipe.scheduler.config)
     vox2_pipe = vox2_pipe.to(device)
+    vox2_pipe.enable_vae_slicing()
     vox2_pipe.enable_model_cpu_offload()
 
 if (os.getenv("FLUX")) == 'true':
@@ -178,7 +189,7 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
                 width=256,
                 height=256,
                 generator=generator,
-            ).frames[0]
+            ).frames
             gif_file_path = save_frames_and_upload(video_frames)
             process_output.append(gif_file_path)
         case "animov":
@@ -191,7 +202,7 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
                 width=256,
                 height=256,
                 generator=generator,
-            ).frames[0]
+            ).frames
             gif_file_path = save_frames_and_upload(video_frames)
             process_output.append(gif_file_path)
         case "t2vxl":
@@ -204,7 +215,7 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
                 width=576,
                 height=320,
                 generator=generator,
-            ).frames[0]
+            ).frames
             gif_file_path = save_frames_and_upload(video_frames)
             process_output.append(gif_file_path)
         case "RealisticVision":
