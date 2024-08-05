@@ -40,6 +40,7 @@ if cudaGPU:
     device = torch.device('cuda:0')
 else:
     device = torch.device('cpu')
+torch.cuda.empty_cache()
 
 # load model pipelines
 
@@ -56,20 +57,6 @@ if os.getenv("TEXT_TO_VIDEO") == 'true':
     text_to_video_pipe = text_to_video_pipe.to(device)
     text_to_video_pipe.enable_vae_slicing()
     text_to_video_pipe.enable_model_cpu_offload()
-
-if (os.getenv("ANIMOV_512X")) == 'true':
-    print("Loading animov-512x model")
-    animov_pipe = DiffusionPipeline.from_pretrained('strangeman3107/animov-512x', torch_dtype=torch.float16)
-    animov_pipe.scheduler = DPMSolverMultistepScheduler.from_config(animov_pipe.scheduler.config)
-    animov_pipe = animov_pipe.to(device)
-    animov_pipe.enable_vae_slicing()
-    animov_pipe.enable_model_cpu_offload()
-
-if (os.getenv("XL_VIDEO")) == 'true':
-    print("Loading Modelscope Text-to-Video XL model")
-    t2v_xl_pipe = DiffusionPipeline.from_pretrained('cerspense/zeroscope_v2_576w',torch_dtype=torch.float16)
-    t2v_xl_pipe = t2v_xl_pipe.to(device)
-    t2v_xl_pipe.enable_model_cpu_offload()
 
 if (os.getenv("REALISTIC_VISION")) == 'true':
     print("Loading Realistic Vision 2.0 model")
@@ -112,8 +99,8 @@ if (os.getenv("VOX2")) == 'true':
 if (os.getenv("FLUX")) == 'true':
     print("Loading FLUX model")
     dtype = torch.bfloat16
-    bfl_repo = "black-forest-labs/FLUX.1-schnell"
-    revision = "refs/pr/1"
+    bfl_repo = "black-forest-labs/FLUX.1-dev"
+    revision = "refs/pr/3"
     scheduler = FlowMatchEulerDiscreteScheduler.from_pretrained(bfl_repo, subfolder="scheduler", revision=revision)
     text_encoder = CLIPTextModel.from_pretrained("openai/clip-vit-large-patch14", torch_dtype=dtype)
     tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-large-patch14", torch_dtype=dtype)
@@ -185,32 +172,6 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
                 guidance_scale=float(os.getenv("VIDEO_GUIDANCE_SCALE")),
                 width=256,
                 height=256,
-                generator=generator,
-            ).frames[0]
-            gif_file_path = save_frames_and_upload(video_frames)
-            process_output.append(gif_file_path)
-        case "animov":
-            video_frames = animov_pipe(
-                prompt=prompt + " - anime",
-                negative_prompt=NEGATIVE_PROMPT,
-                num_frames=int(os.getenv("VIDEO_NUM_FRAMES")),
-                num_inference_steps=int(os.getenv("VIDEO_INFERENCE_STEPS")),
-                guidance_scale=float(os.getenv("VIDEO_GUIDANCE_SCALE")),
-                width=256,
-                height=256,
-                generator=generator,
-            ).frames[0]
-            gif_file_path = save_frames_and_upload(video_frames)
-            process_output.append(gif_file_path)
-        case "t2vxl":
-            video_frames = t2v_xl_pipe(
-                prompt=prompt,
-                negative_prompt=NEGATIVE_PROMPT,
-                num_frames=int(os.getenv("VIDEO_NUM_FRAMES")),
-                num_inference_steps=int(os.getenv("VIDEO_INFERENCE_STEPS")),
-                guidance_scale=float(os.getenv("VIDEO_GUIDANCE_SCALE")),
-                width=576,
-                height=320,
                 generator=generator,
             ).frames[0]
             gif_file_path = save_frames_and_upload(video_frames)
@@ -291,15 +252,18 @@ def process(prompt: str, pipeline: str, num: int, img_url: str):
                 image_path = save_and_upload(images_array[index])
                 process_output.append(image_path)
         case "flux":
-            images_array = flux_pipe(
-                prompt=prompt,
-                num_images_per_prompt=num,
-                num_inference_steps=int(os.getenv("FLUX_INFERENCE_STEPS")),
-                guidance_scale=float(os.getenv("FLUX_GUIDANCE_SCALE")),
-                width=int(os.getenv("FLUX_IMAGE_WIDTH")),
-                height=int(os.getenv("FLUX_IMAGE_HEIGHT")),
-                generator=generator,
-            ).images
+            try:
+                images_array = flux_pipe(
+                    prompt=prompt,
+                    num_images_per_prompt=num,
+                    num_inference_steps=int(os.getenv("FLUX_INFERENCE_STEPS")),
+                    guidance_scale=float(os.getenv("FLUX_GUIDANCE_SCALE")),
+                    width=int(os.getenv("FLUX_IMAGE_WIDTH")),
+                    height=int(os.getenv("FLUX_IMAGE_HEIGHT")),
+                    generator=generator,
+                ).images
+            except:
+                print("Error generating flux image")
             Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
             for index in range(num):
                 image_path = save_and_upload(images_array[index])
@@ -318,7 +282,10 @@ def process_api():
     num = int(json_data["numImages"])
     image_url = json_data["imgUrl"]
     with processing_lock:
-        generation = process(text_prompt, pipeline, num, image_url)
+        try:
+            generation = process(text_prompt, pipeline, num, image_url)
+        except:
+            print("Error generating image")
     response = {'generation': generation}
     return jsonify(response)
 
@@ -327,6 +294,7 @@ def save_and_upload(image):
     image_path = os.path.join(OUTPUT_DIR, file_name)
     image.save(image_path, format='png')
     image_url = upload_image(image_path)
+    torch.cuda.empty_cache()
     return image_url
 
 def upload_image(image):

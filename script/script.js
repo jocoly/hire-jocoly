@@ -22,6 +22,16 @@ const config = {
             "A squirrel holding an umbrella, standing under a gentle rain shower",
             "A rabbit painting colorful eggs, surrounded by spring blooms",
             "A kitten napping in a hammock made of spider webs, in a fairy-tale garden",
+            "A dragon roasting marshmallows over a campfire in an enchanted forest with glowing mushrooms",
+            "A fairy sprinkling magical dust over a blooming garden under a full moon",
+            "A robot exploring an abandoned city with vines growing over ancient skyscrapers",
+            "A centaur reading a book under a giant, ancient tree in a peaceful meadow",
+            "A wizard conjuring a swirling vortex of colorful energy in a dark, mystical cave",
+            "A mermaid painting a seashell with intricate patterns while sitting on a sunlit rock by the sea",
+            "A pirate captain examining a treasure map in a candle-lit cabin on a stormy night",
+            "An astronaut planting a flag on a distant, alien planet with strange, glowing plants",
+            "A knight polishing their armor in a grand castle courtyard with banners fluttering in the wind",
+            "A steampunk inventor working on a complex machine in a cluttered workshop filled with gears and gadgets",
         ],
 
         DEFAULT_MODEL: "StableDiffusion", // used in match function for generateImage function
@@ -31,8 +41,6 @@ const config = {
             "Stable Diffusion 2 (base)",
             "Flux",
             "Modelscope Text-to-Video",
-            "Animov 512x",
-            "Zeroscope v2 576w",
             "Realistic Vision 2.0",
             "Openjourney",
             "DreamShaper",
@@ -44,8 +52,6 @@ const config = {
             "StableDiffusion",
             "flux",
             "TextToVideo",
-            "animov",
-            "t2vxl",
             "RealisticVision",
             "Openjourney",
             "DreamShaper",
@@ -375,12 +381,6 @@ function selectModel(modelButton) {
             break;
         case config.MODELS_ARRAY[7]:
             model = config.PIPELINES_ARRAY[7];
-            break;
-        case config.MODELS_ARRAY[8]:
-            model = config.PIPELINES_ARRAY[8];
-            break;
-        case config.MODELS_ARRAY[9]:
-            model = config.PIPELINES_ARRAY[9];
             break;
         case 'Random':
             model = config.PIPELINES_ARRAY[Math.floor(Math.random()*config.PIPELINES_ARRAY.length)];
