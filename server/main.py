@@ -111,22 +111,20 @@ if (os.getenv("VOX2")) == 'true':
 
 if (os.getenv("FLUX")) == 'true':
     print("Loading FLUX model")
-    bfl_repo="black-forest-labs/FLUX.1-schnell"
-    bfl_rev="refs/pr/1"
-    bfl_dtype=torch.bfloat16
-    scheduler = FlowMatchEulerDiscreteScheduler.from_pretrained(bfl_repo, subfolder="scheduler", revision=bfl_rev)
-    text_encoder = CLIPTextModel.from_pretrained("openai/clip-vit-large-patch14", torch_dtype=bfl_dtype)
-    tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-large-patch14", torch_dtype=bfl_dtype)
-    text_encoder_2 = T5EncoderModel.from_pretrained(bfl_repo, subfolder="text_encoder_2", torch_dtype=bfl_dtype, revision=bfl_rev)
-    tokenizer_2 = T5TokenizerFast.from_pretrained(bfl_repo, subfolder="tokenizer_2", torch_dtype=bfl_dtype, revision=bfl_rev)
-    vae = AutoencoderKL.from_pretrained(bfl_repo, subfolder="vae", torch_dtype=bfl_dtype, revision=bfl_rev)
-    transformer = FluxTransformer2DModel.from_pretrained(bfl_repo, subfolder="transformer", torch_dtype=bfl_dtype, revision=bfl_rev)
-
+    dtype = torch.bfloat16
+    bfl_repo = "black-forest-labs/FLUX.1-schnell"
+    revision = "refs/pr/1"
+    scheduler = FlowMatchEulerDiscreteScheduler.from_pretrained(bfl_repo, subfolder="scheduler", revision=revision)
+    text_encoder = CLIPTextModel.from_pretrained("openai/clip-vit-large-patch14", torch_dtype=dtype)
+    tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-large-patch14", torch_dtype=dtype)
+    text_encoder_2 = T5EncoderModel.from_pretrained(bfl_repo, subfolder="text_encoder_2", torch_dtype=dtype, revision=revision)
+    tokenizer_2 = T5TokenizerFast.from_pretrained(bfl_repo, subfolder="tokenizer_2", torch_dtype=dtype, revision=revision)
+    vae = AutoencoderKL.from_pretrained(bfl_repo, subfolder="vae", torch_dtype=dtype, revision=revision)
+    transformer = FluxTransformer2DModel.from_pretrained(bfl_repo, subfolder="transformer", torch_dtype=dtype, revision=revision)
     quantize(transformer, weights=qfloat8)
     freeze(transformer)
     quantize(text_encoder_2, weights=qfloat8)
     freeze(text_encoder_2)
-
     flux_pipe = FluxPipeline(
         scheduler=scheduler,
         text_encoder=text_encoder,
@@ -137,7 +135,7 @@ if (os.getenv("FLUX")) == 'true':
         transformer=None,
     )
     flux_pipe.text_encoder_2 = text_encoder_2
-    flux_pipe.transormer=transformer,
+    flux_pipe.transformer = transformer
     flux_pipe.enable_model_cpu_offload()
 
 # imgur upload config

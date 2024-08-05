@@ -26,6 +26,7 @@ const config = {
 
         DEFAULT_MODEL: "StableDiffusion", // used in match function for generateImage function
 
+        //this is the order and 
         MODELS_ARRAY: [
             "Stable Diffusion 2 (base)",
             "Flux",
@@ -41,7 +42,7 @@ const config = {
 
         PIPELINES_ARRAY: [
             "StableDiffusion",
-            "Flux",
+            "flux",
             "TextToVideo",
             "animov",
             "t2vxl",
