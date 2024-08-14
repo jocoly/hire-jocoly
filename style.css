@@ -1,11 +1,4 @@
 /* spacing on all sections */
-#about, #services, #portfolio, #contact {
-    margin-top: 2rem;
-    padding-top: 2rem;
-}
-#contact {
-    padding-bottom: 4rem;
-}
 
 .navbarScroll.navbarLight {
     background-color: rgb(166, 144, 246);
@@ -284,49 +277,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     color: black;
-}
-
-/* about section image css */
-.imageAboutPage {
-    width: 100%;
-}
-
-/* projects section css */
-.skillsText.card {
-    height: 310px;
-    cursor: pointer;
-}
-.skillsIcon {
-    font-size: 36px;
-    text-align: center;
-    width: 100%;
-}
-.card-title {
-    text-align: center;
-}
-.card:hover .skillsIcon {
-    color: #008000;
-}
-.skillsText:hover {
-    border: 1px solid #008000;
-}
-
-/* social media icons styling */
-.social-icons {
-    font-size: 36px;
-    cursor: pointer;
-}
-.fa-facebook:hover,.fa-instagram:hover,.fa-twitter:hover,.fa-linkedin:hover, .fa-twitch:hover {
-    color: #008000;
-}
-.fab {
-    color: #000000;
-}
-
-/* footer styling */
-#footer {
-    background-color: rgba(166, 144, 246);
-    text-align: center;
 }
 
 * {

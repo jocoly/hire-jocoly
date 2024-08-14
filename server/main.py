@@ -70,7 +70,7 @@ if (os.getenv("REALISTIC_VISION")) == 'true':
     print("Loading Realistic Vision 2.0 model")
     realistic_vision_pipe = DiffusionPipeline.from_pretrained('SG161222/Realistic_Vision_V2.0',
                                                                   torch_dtype=torch.float16,
-                                                                  variant='fp16')
+                                                                  )
     realistic_vision_pipe.scheduler = DPMSolverMultistepScheduler.from_config(realistic_vision_pipe.scheduler.config)
     realistic_vision_pipe = realistic_vision_pipe.to(device)
     realistic_vision_pipe.enable_model_cpu_offload()
@@ -80,7 +80,7 @@ if (os.getenv("OPENJOURNEY")) == 'true':
     print("Loading openjourney model")
     openjourney_pipe = DiffusionPipeline.from_pretrained('prompthero/openjourney',
                                                          torch_dtype=torch.float16,
-                                                         variant='fp16')
+                                                         )
     openjourney_pipe.scheduler = DPMSolverMultistepScheduler.from_config(openjourney_pipe.scheduler.config)
     openjourney_pipe = openjourney_pipe.to(device)
     openjourney_pipe.enable_model_cpu_offload()
@@ -90,7 +90,7 @@ if (os.getenv("DREAM_SHAPER")) == 'true':
     print("Loading Dream Shaper model")
     dream_shaper_pipe = DiffusionPipeline.from_pretrained('Lykon/DreamShaper',
                                                           torch_dtype=torch.float16,
-                                                          variant='fp16', low_cpu_mem_usage=False)
+                                                          )
     dream_shaper_pipe.scheduler = DPMSolverMultistepScheduler.from_config(dream_shaper_pipe.scheduler.config)
     dream_shaper_pipe = dream_shaper_pipe.to(device)
     dream_shaper_pipe.enable_model_cpu_offload()
