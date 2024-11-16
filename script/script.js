@@ -361,15 +361,6 @@ function selectModel(modelButton) {
         case config.MODELS_ARRAY[5]:
             model = config.PIPELINES_ARRAY[5];
             break;
-        case config.MODELS_ARRAY[6]:
-            model = config.PIPELINES_ARRAY[6];
-            break;
-        case config.MODELS_ARRAY[7]:
-            model = config.PIPELINES_ARRAY[7];
-            break;
-        case config.MODELS_ARRAY[8]:
-            model = config.PIPELINES_ARRAY[8];
-            break;
         case 'Random':
             model = config.PIPELINES_ARRAY[Math.floor(Math.random()*config.PIPELINES_ARRAY.length)];
             promptSelect.innerHTML = model;
