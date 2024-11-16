@@ -54,7 +54,7 @@ if (os.getenv("ANIMOV_512X")) == 'true':
     print("Loading animov-512x model")
     animov_pipe = DiffusionPipeline.from_pretrained('strangeman3107/animov-512x',
                                                     torch_dtype=torch.float16,
-                                                    variant='fp16')
+                                                    )
     animov_pipe.scheduler = DPMSolverMultistepScheduler.from_config(animov_pipe.scheduler.config)
     animov_pipe = animov_pipe.to(device)
     animov_pipe.enable_model_cpu_offload()
@@ -100,7 +100,7 @@ if (os.getenv("DREAMLIKE_PHOTOREAL")) == 'true':
     print("Loading Dreamlike Photoreal model")
     dreamlike_photoreal_pipe = DiffusionPipeline.from_pretrained('dreamlike-art/dreamlike-photoreal-2.0',
                                                                  torch_dtype=torch.float16,
-                                                                 variant='fp16')
+                                                                 )
     dreamlike_photoreal_pipe.scheduler = DPMSolverMultistepScheduler.from_config(
         dreamlike_photoreal_pipe.scheduler.config)
     dreamlike_photoreal_pipe = dreamlike_photoreal_pipe.to(device)
@@ -111,7 +111,7 @@ if (os.getenv("VOX2")) == 'true':
     print("Loading vox2 model")
     vox2_pipe = DiffusionPipeline.from_pretrained('plasmo/vox2',
                                                   torch_dtype=torch.float16,
-                                                  variant='fp16')
+                                                  )
     vox2_pipe.scheduler = DPMSolverMultistepScheduler.from_config(vox2_pipe.scheduler.config)
     vox2_pipe = vox2_pipe.to(device)
     vox2_pipe.enable_model_cpu_offload()
@@ -318,8 +318,20 @@ def save_frames_and_upload(video_frames):
 
 def convert_to_gif(mp4_file_path):
     gif_file_path = mp4_file_path[:-4] + ".gif"
-    subprocess.run(['ffmpeg', '-i', mp4_file_path, '-vf', 'fps=10,scale=320:-1:flags=lanczos', gif_file_path],
-                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    try:
+        subprocess.run(
+            ['ffmpeg', '-i', mp4_file_path, '-vf', 'fps=10,scale=320:-1:flags=lanczos', gif_file_path],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=True
+        )
+    except FileNotFoundError:
+        raise FileNotFoundError(
+            "FFmpeg executable not found. Ensure FFmpeg is installed and added to the system PATH, "
+            "or provide the full path to the FFmpeg executable."
+        )
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"FFmpeg failed to convert MP4 to GIF: {e}")
     return gif_file_path
 
 if __name__ == "__main__":

@@ -28,9 +28,6 @@ const config = {
 
         MODELS_ARRAY: [
             "Stable Diffusion 2 (base)",
-            "Modelscope Text-to-Video",
-            "Animov 512x",
-            "Zeroscope v2 576w",
             "Realistic Vision 2.0",
             "Openjourney",
             "DreamShaper",
@@ -40,9 +37,6 @@ const config = {
 
         PIPELINES_ARRAY: [
             "StableDiffusion",
-            "TextToVideo",
-            "animov",
-            "t2vxl",
             "RealisticVision",
             "Openjourney",
             "DreamShaper",
