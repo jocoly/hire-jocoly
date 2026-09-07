@@ -1,0 +1,53 @@
+Flight — asset and software credits
+
+GEOGRAPHIC DATA
+Building footprints, NYC Office of Technology and Innovation (OTI).
+Source: https://services6.arcgis.com/yG5s3afENB5iO9fj/arcgis/rest/services/BUILDING_view/FeatureServer
+Metadata: https://github.com/CityOfNewYork/nyc-geo-metadata/blob/main/Metadata/Metadata_BuildingFootprints.md
+Downloaded September 6, 2026. Bounding box: -74.025,40.698,-73.955,40.785.
+32,629 features. Roof heights are converted from feet to meters.
+NYC Open Data terms: https://opendata.cityofnewyork.us/overview/#termsofuse
+
+Shoreline/borough boundaries: NYC Department of City Planning, distributed via
+https://github.com/dwillis/nyc-maps/blob/master/boroughs.geojson
+Data is a historical snapshot, not a current navigational map.
+Geographic data remains subject to its source terms; it is not relicensed CC0.
+Facades and bridge details are illustrative. Detailed buildings cover Lower and
+Midtown Manhattan and adjacent waterfronts, not all five boroughs.
+
+MODELS & TEXTURES
+Kenney Space Kit 2.0: craft_speederA.glb (model and embedded texture).
+The parked carrier craft is voxelized from this model at runtime.
+https://kenney.nl/assets/space-kit
+Creator: Kenney (https://kenney.nl)
+License: CC0 1.0 https://creativecommons.org/publicdomain/zero/1.0/
+Original license included at /models/Kenney-License.txt.
+Original voxel aircraft and creatures in src/voxels.ts, procedural skybox in
+src/atmosphere.ts, and synthesized engine and creature sounds in src/audio.ts:
+dedicated to the public domain under CC0 1.0, to the extent permitted by law.
+Character names are used in this unofficial fan prototype; no affiliation
+or endorsement is implied. CC0 covers original geometry, not third-party marks.
+
+SOFTWARE
+Three.js — MIT — https://github.com/mrdoob/three.js/blob/dev/LICENSE
+Copyright 2010-2026 Three.js authors.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+FONTS
+Barlow Condensed — Jeremy Tribby; DM Sans — Colophon Foundry.
+SIL Open Font License 1.1. Bundled through Fontsource.
+Full font license texts are included in /licenses/.
