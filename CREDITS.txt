@@ -7,7 +7,14 @@ https://gis.lojic.org/maps/rest/services/LojicSolutions/OpenDataBase/MapServer/8
 Indiana-side building footprints: OpenStreetMap contributors, ODbL.
 https://www.openstreetmap.org/copyright
 Downloaded September 7, 2026. Louisville map bounds: -85.856,38.154,-85.661,38.352.
-The Ohio River banks and bridge geometry are lightweight game approximations.
+Bridge geometry is a lightweight game approximation. Ohio River and stream
+shorelines use the official LOJIC water polygons cited above.
+
+Bare-earth elevation for both maps: Mapzen Terrain Tiles, accessed through the
+Registry of Open Data on AWS on September 8, 2026.
+https://registry.opendata.aws/terrain-tiles/
+Terrain data attribution: https://github.com/tilezen/joerd/blob/master/docs/attribution.md
+Elevation is sampled into compact local grids and vertically emphasized 1.15x.
 
 Building footprints, NYC Office of Technology and Innovation (OTI).
 Source: https://services6.arcgis.com/yG5s3afENB5iO9fj/arcgis/rest/services/BUILDING_view/FeatureServer
