@@ -1,6 +1,14 @@
 Flight — asset and software credits
 
 GEOGRAPHIC DATA
+Louisville/Jefferson County building rooflines and heights: LOJIC Open Data,
+Spring 2024 imagery (published 2025).
+https://gis.lojic.org/maps/rest/services/LojicSolutions/OpenDataBase/MapServer/8
+Indiana-side building footprints: OpenStreetMap contributors, ODbL.
+https://www.openstreetmap.org/copyright
+Downloaded September 7, 2026. Louisville map bounds: -85.856,38.154,-85.661,38.352.
+The Ohio River banks and bridge geometry are lightweight game approximations.
+
 Building footprints, NYC Office of Technology and Innovation (OTI).
 Source: https://services6.arcgis.com/yG5s3afENB5iO9fj/arcgis/rest/services/BUILDING_view/FeatureServer
 Metadata: https://github.com/CityOfNewYork/nyc-geo-metadata/blob/main/Metadata/Metadata_BuildingFootprints.md
