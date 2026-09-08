@@ -31,6 +31,17 @@ Facades and bridge details are illustrative. Detailed buildings cover Lower and
 Midtown Manhattan and adjacent waterfronts, not all five boroughs.
 
 MODELS & TEXTURES
+Open low-poly aircraft models from Poly Pizza: Jet by jeremy, Helicopter by
+kazuma, Boeing 747 by Miha Lunar, Airplane by Poly by Google, and Predator
+Drone by sftwr314r8. The helicopter is CC0; the remaining models are licensed
+under Creative Commons Attribution as listed on their source pages.
+Original source and license details are included at /models/aircraft/README.txt.
+
+Low Poly Wild West Environment Pack: curated Amarillo scenery and props.
+Creator: LowPolyAssets. License: CC0 1.0.
+https://lowpolyassets.itch.io/low-poly-wild-west
+Original source/license details included at /models/amarillo/README.txt.
+
 Kenney Space Kit 2.0: craft_speederA.glb (model and embedded texture).
 The parked carrier craft is voxelized from this model at runtime.
 https://kenney.nl/assets/space-kit
