@@ -11,7 +11,7 @@ Bridge geometry is a lightweight game approximation. Ohio River and stream
 shorelines use the official LOJIC water polygons cited above.
 
 Bare-earth elevation for both maps: Mapzen Terrain Tiles, accessed through the
-Registry of Open Data on AWS on September 8, 2026.
+Registry of Open Data on AWS on September 7, 2026.
 https://registry.opendata.aws/terrain-tiles/
 Terrain data attribution: https://github.com/tilezen/joerd/blob/master/docs/attribution.md
 Elevation is sampled into compact local grids and vertically emphasized 1.15x.
