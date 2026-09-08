@@ -31,10 +31,10 @@ Facades and bridge details are illustrative. Detailed buildings cover Lower and
 Midtown Manhattan and adjacent waterfronts, not all five boroughs.
 
 MODELS & TEXTURES
-Open low-poly aircraft models from Poly Pizza: Jet by jeremy, Helicopter by
-kazuma, Boeing 747 by Miha Lunar, Airplane by Poly by Google, and Predator
-Drone by sftwr314r8. The helicopter is CC0; the remaining models are licensed
-under Creative Commons Attribution as listed on their source pages.
+Open low-poly aircraft models from Poly Pizza: Jet by jeremy, Boeing 747 by
+Miha Lunar, and Predator Drone by sftwr314r8. These models are licensed under
+Creative Commons Attribution as listed on their source pages. The helicopter
+and biplane use the original procedural voxel designs.
 Original source and license details are included at /models/aircraft/README.txt.
 
 Low Poly Wild West Environment Pack: curated Amarillo scenery and props.
