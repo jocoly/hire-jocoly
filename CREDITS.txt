@@ -1,35 +1,5 @@
 Flight — asset and software credits
 
-GEOGRAPHIC DATA
-Louisville/Jefferson County building rooflines and heights: LOJIC Open Data,
-Spring 2024 imagery (published 2025).
-https://gis.lojic.org/maps/rest/services/LojicSolutions/OpenDataBase/MapServer/8
-Indiana-side building footprints: OpenStreetMap contributors, ODbL.
-https://www.openstreetmap.org/copyright
-Downloaded September 7, 2026. Louisville map bounds: -85.856,38.154,-85.661,38.352.
-Bridge geometry is a lightweight game approximation. Ohio River and stream
-shorelines use the official LOJIC water polygons cited above.
-
-Bare-earth elevation for both maps: Mapzen Terrain Tiles, accessed through the
-Registry of Open Data on AWS on September 7, 2026.
-https://registry.opendata.aws/terrain-tiles/
-Terrain data attribution: https://github.com/tilezen/joerd/blob/master/docs/attribution.md
-Elevation is sampled into compact local grids and vertically emphasized 1.15x.
-
-Building footprints, NYC Office of Technology and Innovation (OTI).
-Source: https://services6.arcgis.com/yG5s3afENB5iO9fj/arcgis/rest/services/BUILDING_view/FeatureServer
-Metadata: https://github.com/CityOfNewYork/nyc-geo-metadata/blob/main/Metadata/Metadata_BuildingFootprints.md
-Downloaded September 6, 2026. Bounding box: -74.025,40.698,-73.955,40.785.
-32,629 features. Roof heights are converted from feet to meters.
-NYC Open Data terms: https://opendata.cityofnewyork.us/overview/#termsofuse
-
-Shoreline/borough boundaries: NYC Department of City Planning, distributed via
-https://github.com/dwillis/nyc-maps/blob/master/boroughs.geojson
-Data is a historical snapshot, not a current navigational map.
-Geographic data remains subject to its source terms; it is not relicensed CC0.
-Facades and bridge details are illustrative. Detailed buildings cover Lower and
-Midtown Manhattan and adjacent waterfronts, not all five boroughs.
-
 MODELS & TEXTURES
 Animated Horse by Quaternius, CC0 1.0. Model and original skeletal animations.
 https://poly.pizza/m/qvTrSG9pZF
@@ -48,12 +18,6 @@ Creator: LowPolyAssets. License: CC0 1.0.
 https://lowpolyassets.itch.io/low-poly-wild-west
 Original source/license details included at /models/amarillo/README.txt.
 
-Kenney Space Kit 2.0: craft_speederA.glb (model and embedded texture).
-The parked carrier craft is voxelized from this model at runtime.
-https://kenney.nl/assets/space-kit
-Creator: Kenney (https://kenney.nl)
-License: CC0 1.0 https://creativecommons.org/publicdomain/zero/1.0/
-Original license included at /models/Kenney-License.txt.
 Original voxel aircraft and creatures in src/voxels.ts, procedural skybox in
 src/atmosphere.ts, and synthesized engine and creature sounds in src/audio.ts:
 dedicated to the public domain under CC0 1.0, to the extent permitted by law.
