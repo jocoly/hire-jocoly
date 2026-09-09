@@ -10,3 +10,13 @@ It contains the authored cactus, tumbleweed, wagon, stagecoach, windmill, water
 tower, gallows, storefront sign, door, window, lantern, balcony, fence, hitching
 post, trough, barrel, and crate models used by the Amarillo map. Model geometry and colors are unchanged;
 the game applies flat shading, rough materials, scaling, and placement at runtime.
+
+Animated Horse
+Creator: Quaternius
+Source: https://poly.pizza/m/qvTrSG9pZF
+Original pack: https://quaternius.com/packs/ultimateanimatedanimals.html
+License: Creative Commons Zero v1.0 Universal (CC0 1.0)
+Downloaded: September 9, 2026
+horse.glb contains the original rigged model with Walk, Eating and Idle clips.
+Unused/duplicate clips were removed with scripts/prepare-amarillo-horse.mjs.
+The game clones the skeleton for each horse and normalizes its display size.

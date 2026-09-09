@@ -31,6 +31,12 @@ Facades and bridge details are illustrative. Detailed buildings cover Lower and
 Midtown Manhattan and adjacent waterfronts, not all five boroughs.
 
 MODELS & TEXTURES
+Animated Horse by Quaternius, CC0 1.0. Model and original skeletal animations.
+https://poly.pizza/m/qvTrSG9pZF
+https://quaternius.com/packs/ultimateanimatedanimals.html
+Unused animation clips removed for the browser build; details at
+/models/amarillo/README.txt.
+
 Open low-poly aircraft models from Poly Pizza: Jet by jeremy, Boeing 747 by
 Miha Lunar, and Predator Drone by sftwr314r8. These models are licensed under
 Creative Commons Attribution as listed on their source pages. The helicopter
