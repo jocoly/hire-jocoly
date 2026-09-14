@@ -16,11 +16,11 @@ Adapted for this game: normalized scale/axes, rigid skeletal rig, walk/idle
 and firing animations, named cannon anchors, Blender and glTF export.
 Source, attribution and reproducible authoring details: assets/boss-walker.
 
-Animated Horse by Quaternius, CC0 1.0. Model and original skeletal animations.
-https://poly.pizza/m/qvTrSG9pZF
-https://quaternius.com/packs/ultimateanimatedanimals.html
-Unused animation clips removed for the browser build; details at
-/models/amarillo/README.txt.
+Animated Horse ("Voxel Knights" pack) by The Voxel Store.
+https://the-voxel-store.itch.io/voxel-knights
+"All Assets can be used in any game with or without credit to The Voxel
+Store." Mesh, rig and Walk/Idle/Eat/Buck animations rebuilt into one GLB via
+Blender; details at /models/amarillo/README.txt.
 
 Open low-poly aircraft models from Poly Pizza: Jet by jeremy, Boeing 747 by
 Miha Lunar, and Predator Drone by sftwr314r8. These models are licensed under
@@ -32,6 +32,25 @@ Low Poly Wild West Environment Pack: curated Amarillo scenery and props.
 Creator: LowPolyAssets. License: CC0 1.0.
 https://lowpolyassets.itch.io/low-poly-wild-west
 Original source/license details included at /models/amarillo/README.txt.
+
+Modular Train Pack (locomotive and wagon) by Quaternius, CC0 1.0.
+https://poly.pizza/bundle/Modular-Train-Pack-jYEybkFVr1
+Unmodified models, replacing the previous procedural train; details at
+/models/amarillo/README.txt.
+
+Character models (Adventurer, Farmer) from the Ultimate Modular Men Pack by Quaternius,
+CC0 1.0.
+https://poly.pizza/bundle/Ultimate-Modular-Men-Pack-ZiH8muWqwQ
+Unmodified models saved as person-adventurer.glb and person-farmer.glb: candidates to
+replace the procedural voxelPerson() townsfolk rig in src/world-amarillo.ts. Flat,
+material-tinted meshes with no baked textures (like the horse/train models), a
+full finger-rigged skeleton, and Walk/Run/Idle/Wave/Death and other clips (named
+"CharacterArmature|<Clip>"). Downloaded but not yet integrated into the scene.
+
+Voxel environment assets: Desert town (two landmark buildings) by Max Parata
+(monogon). Free for any project; credit appreciated but not required.
+https://maxparata.itch.io/voxel-desert-town
+Details at /models/landmarks/README.txt.
 
 Original voxel aircraft and creatures in src/voxels.ts, procedural skybox in
 src/atmosphere.ts, and original procedural propulsion/effect designs in src/audio.ts
@@ -64,24 +83,25 @@ Kenney: Sci-Fi Sounds 1.0 (2020) and Impact Sounds 1.0 (2019).
 CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/
 Sources: https://kenney.nl/assets/sci-fi-sounds
          https://kenney.nl/assets/impact-sounds
-Nine original Ogg files are layered with original procedural propulsion and
-effect envelopes. Source checksums and reproducible acquisition are recorded
-in assets/audio/manifest.json in the development source.
+Twenty-nine original Ogg files are layered with original procedural
+propulsion and effect envelopes. Source checksums and reproducible
+acquisition are recorded in assets/audio/manifest.json in the development
+source.
+
+Robot Roar 3 and Robot Roar 4 by dotY21, Freesound.org. CC0 1.0 Universal.
+https://freesound.org/people/dotY21/sounds/320567/
+https://freesound.org/people/dotY21/sounds/345973/
+Used for the Assault Mech boss's roar and damage-reaction vocalizations.
+
+Thunder Clap by roboroo, Freesound.org. CC0 1.0 Universal.
+https://freesound.org/people/roboroo/sounds/436790/
+Used for the storm's lightning-strike thunder.
+
+All three Freesound files above are the site's publicly downloadable HQ
+preview MP3s (not the original WAV masters). Source checksums and
+reproducible acquisition are recorded in assets/audio/manifest.json.
 
 FONTS
 Barlow Condensed â€” Jeremy Tribby; DM Sans â€” Colophon Foundry.
 SIL Open Font License 1.1. Bundled through Fontsource.
 Full font license texts are included in /licenses/.
-
-MUSIC
-Rocket Power by Kevin MacLeod
-https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1600038
-Licensed under Creative Commons Attribution 4.0 International.
-https://creativecommons.org/licenses/by/4.0/
-Original MP3 bytes; runtime playback volume only.
-
-Phonk Drift Racing Montage by Alex Morgan
-https://freemusicarchive.org/music/alex-morgan/phonk-drift/phonk-drift-racing-montage/
-Licensed under Creative Commons Attribution 4.0 International.
-https://creativecommons.org/licenses/by/4.0/
-Original MP3 bytes; runtime playback volume only.
